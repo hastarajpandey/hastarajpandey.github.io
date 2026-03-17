@@ -3,1570 +3,524 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hastaraj Pandey — Geomatics Engineer & GIS Specialist</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Hastaraj Pandey — Geomatics Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #060c14;
-    --bg2: #0b1622;
-    --bg3: #0f1e30;
-    --cyan: #00e5ff;
-    --cyan2: #00b8d9;
-    --orange: #ff6b35;
-    --orange2: #ff8c42;
-    --gold: #f0c040;
-    --text: #d4e8f0;
-    --muted: #6a8fa0;
-    --card: #0d1d2e;
-    --border: rgba(0,229,255,0.15);
-    --glow: 0 0 30px rgba(0,229,255,0.2);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-
-  /* ===== TOPOGRAPHIC BACKGROUND ===== */
-  .topo-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.07;
-    background-image:
-      repeating-radial-gradient(ellipse at 30% 40%, transparent 0px, transparent 18px, rgba(0,229,255,0.4) 18px, rgba(0,229,255,0.4) 19px),
-      repeating-radial-gradient(ellipse at 70% 60%, transparent 0px, transparent 25px, rgba(0,229,255,0.3) 25px, rgba(0,229,255,0.3) 26px),
-      repeating-radial-gradient(ellipse at 50% 30%, transparent 0px, transparent 32px, rgba(0,180,220,0.2) 32px, rgba(0,180,220,0.2) 33px);
-  }
-
-  .grid-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-
-  /* ===== CURSOR DOT ===== */
-  .cursor {
-    position: fixed;
-    width: 8px; height: 8px;
-    background: var(--cyan);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-    mix-blend-mode: screen;
-  }
-  @media (hover: none), (max-width: 900px) {
-    .cursor { display: none; }
-  }
-
-  /* ===== NAV ===== */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 1.2rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(6,12,20,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--cyan);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-
-  .nav-links a:hover { color: var(--cyan); }
-
-  /* ===== HERO ===== */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 4rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--orange);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    animation: fadeInUp 0.8s ease both;
-  }
-
-  .hero-tag::before {
-    content: '';
-    display: inline-block;
-    width: 30px; height: 1px;
-    background: var(--orange);
-  }
-
-  .hero-name {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: -2px;
-    color: #fff;
-    animation: fadeInUp 0.8s 0.15s ease both;
-  }
-
-  .hero-name span {
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(0,229,255,0.5);
-  }
-
-  .hero-subtitle {
-    font-family: 'Space Mono', monospace;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    color: var(--cyan);
-    margin-top: 1.5rem;
-    letter-spacing: 2px;
-    animation: fadeInUp 0.8s 0.3s ease both;
-  }
-
-  .hero-desc {
-    max-width: 550px;
-    color: var(--muted);
-    font-size: 1rem;
-    margin-top: 1.5rem;
-    line-height: 1.8;
-    font-weight: 300;
-    animation: fadeInUp 0.8s 0.45s ease both;
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2.5rem;
-    animation: fadeInUp 0.8s 0.6s ease both;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--cyan);
-    color: var(--bg);
-    padding: 0.85rem 2rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.3s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-
-  .btn-primary:hover {
-    background: var(--orange);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255,107,53,0.3);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 0.85rem 2rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s;
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    box-shadow: var(--glow);
-  }
-
-  /* Hero floating coordinates */
-  .hero-coords {
-    position: absolute;
-    right: 4rem;
-    bottom: 6rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-align: right;
-    animation: fadeIn 1.5s 1s ease both;
-  }
-
-  .hero-coords .coord-line {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-bottom: 0.3rem;
-  }
-
-  .coord-dot {
-    width: 4px; height: 4px;
-    background: var(--cyan);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  /* Hero scan line */
-  .scan-line {
-    position: absolute;
-    left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-    animation: scan 4s linear infinite;
-    opacity: 0.4;
-  }
-
-  @keyframes scan {
-    0% { top: 0; }
-    100% { top: 100%; }
-  }
-
-  /* ===== SECTION COMMONS ===== */
-  section {
-    position: relative;
-    z-index: 1;
-  }
-
-  .section-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 6rem 4rem;
-  }
-
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--orange);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-    max-width: 80px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 4vw, 3rem);
-    color: #fff;
-    letter-spacing: -1px;
-    margin-bottom: 3rem;
-  }
-
-  /* ===== STATS BAR ===== */
-  .stats-bar {
-    background: var(--bg3);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 2rem 4rem;
-    display: flex;
-    justify-content: center;
-    gap: 5rem;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
-  }
-
-  .stat-item {
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 2.5rem;
-    color: var(--cyan);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-top: 0.4rem;
-  }
-
-  /* ===== ABOUT ===== */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 5rem;
-    align-items: start;
-  }
-
-  .about-visual {
-    position: relative;
-  }
-
-  .about-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .about-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--cyan), var(--orange));
-  }
-
-  .about-card-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-
-  .skill-bar-item {
-    margin-bottom: 1.2rem;
-  }
-
-  .skill-bar-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.4rem;
-    font-size: 0.85rem;
-    color: var(--text);
-  }
-
-  .skill-bar-header span:last-child {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-  }
-
-  .skill-track {
-    height: 3px;
-    background: rgba(255,255,255,0.05);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .skill-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--cyan2), var(--cyan));
-    position: relative;
-    transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
-    width: 0;
-  }
-
-  .skill-fill.animated { width: var(--w); }
-
-  .skill-fill::after {
-    content: '';
-    position: absolute;
-    right: 0; top: -2px;
-    width: 7px; height: 7px;
-    background: var(--cyan);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--cyan);
-  }
-
-  .about-text p {
-    color: var(--muted);
-    line-height: 1.9;
-    margin-bottom: 1.2rem;
-    font-size: 0.95rem;
-  }
-
-  .highlight-text {
-    color: var(--text) !important;
-    font-weight: 500;
-  }
-
-  .about-langs {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-  }
-
-  .lang-badge {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    padding: 0.4rem 1rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--cyan);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  /* ===== EXPERIENCE ===== */
-  .exp-section {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-  }
-
-  .timeline {
-    position: relative;
-    padding-left: 2rem;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--cyan), transparent);
-  }
-
-  .timeline-item {
-    position: relative;
-    padding: 0 0 3rem 3rem;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: all 0.6s ease;
-  }
-
-  .timeline-item.visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .timeline-dot {
-    position: absolute;
-    left: -2rem;
-    top: 0.3rem;
-    width: 12px; height: 12px;
-    background: var(--bg);
-    border: 2px solid var(--cyan);
-    border-radius: 50%;
-    transform: translateX(50%);
-  }
-
-  .timeline-dot.active {
-    background: var(--cyan);
-    box-shadow: 0 0 15px var(--cyan);
-  }
-
-  .timeline-date {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--orange);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-
-  .timeline-role {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: #fff;
-    margin-bottom: 0.3rem;
-  }
-
-  .timeline-company {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--cyan);
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-  }
-
-  .timeline-bullets {
-    list-style: none;
-  }
-
-  .timeline-bullets li {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    padding: 0.3rem 0;
-    display: flex;
-    gap: 0.8rem;
-    align-items: flex-start;
-  }
-
-  .timeline-bullets li::before {
-    content: '›';
-    color: var(--cyan);
-    flex-shrink: 0;
-    font-size: 1.1rem;
-    line-height: 1.5;
-  }
-
-  /* ===== PROJECTS ===== */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s;
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  .project-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .project-card:hover {
-    border-color: rgba(0,229,255,0.4);
-    transform: translateY(-5px) !important;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4), var(--glow);
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(0,229,255,0.03) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
-  .project-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--orange);
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
-  }
-
-  .project-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: #fff;
-    margin-bottom: 0.8rem;
-    line-height: 1.4;
-  }
-
-  .project-desc {
-    color: var(--muted);
-    font-size: 0.85rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    background: rgba(0,229,255,0.08);
-    border: 1px solid rgba(0,229,255,0.2);
-    color: var(--cyan);
-    padding: 0.2rem 0.7rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  /* ===== SKILLS ===== */
-  .skills-section {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .skill-category {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    position: relative;
-    transition: border-color 0.3s;
-  }
-
-  .skill-category:hover {
-    border-color: rgba(0,229,255,0.4);
-  }
-
-  .skill-cat-icon {
-    width: 40px; height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,229,255,0.08);
-    margin-bottom: 1.2rem;
-    font-size: 1.2rem;
-  }
-
-  .skill-cat-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: #fff;
-    margin-bottom: 1rem;
-  }
-
-  .skill-list {
-    list-style: none;
-  }
-
-  .skill-list li {
-    color: var(--muted);
-    font-size: 0.85rem;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .skill-list li::before {
-    content: '';
-    width: 4px; height: 4px;
-    background: var(--cyan);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* ===== EDUCATION & CERTS ===== */
-  .edu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .edu-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .edu-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--cyan), transparent);
-  }
-
-  .edu-year {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--orange);
-    letter-spacing: 1.5px;
-    margin-bottom: 0.5rem;
-  }
-
-  .edu-degree {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #fff;
-    margin-bottom: 0.4rem;
-    line-height: 1.4;
-  }
-
-  .edu-institution {
-    color: var(--muted);
-    font-size: 0.85rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .edu-score {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--cyan);
-  }
-
-  .cert-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .cert-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--orange);
-    padding: 1.2rem 1.5rem;
-  }
-
-  .cert-title {
-    font-size: 0.88rem;
-    color: var(--text);
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-    line-height: 1.4;
-  }
-
-  .cert-org {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  /* ===== CONTACT ===== */
-  .contact-section {
-    border-top: 1px solid var(--border);
-  }
-
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-  }
-
-  .contact-heading {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    color: #fff;
-    line-height: 1.1;
-    letter-spacing: -1px;
-  }
-
-  .contact-heading span { color: var(--cyan); }
-
-  .contact-sub {
-    color: var(--muted);
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
-    line-height: 1.8;
-    max-width: 400px;
-  }
-
-  .contact-items {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-  }
-
-  .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 1.2rem 1.5rem;
-    text-decoration: none;
-    transition: all 0.3s;
-    color: var(--text);
-  }
-
-  .contact-item:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    box-shadow: var(--glow);
-  }
-
-  .contact-icon {
-    width: 36px; height: 36px;
-    background: rgba(0,229,255,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-    color: var(--cyan);
-  }
-
-  .contact-item-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.2rem;
-  }
-
-  .contact-item-value {
-    font-size: 0.9rem;
-  }
-
-  /* ===== FOOTER ===== */
-  footer {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    padding: 2rem 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .footer-copy {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    letter-spacing: 1px;
-  }
-
-  .footer-badge {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .footer-badge span {
-    color: var(--cyan);
-  }
-
-  /* ===== ANIMATIONS ===== */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,255,0.6); }
-    50% { box-shadow: 0 0 0 6px rgba(0,229,255,0); }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  /* ===== DECORATIVE CORNER ===== */
-  .corner-deco {
-    position: absolute;
-    width: 60px; height: 60px;
-    pointer-events: none;
-  }
-
-  .corner-deco.tl { top: 0; left: 0; border-top: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
-  .corner-deco.br { bottom: 0; right: 0; border-bottom: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
-
-  /* ===== HAMBURGER MENU ===== */
-  .nav-hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 36px; height: 36px;
-    cursor: pointer;
-    z-index: 200;
-    background: none;
-    border: none;
-    padding: 4px;
-  }
-  .nav-hamburger span {
-    display: block;
-    height: 2px;
-    background: var(--cyan);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    transform-origin: center;
-  }
-  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* Mobile drawer */
-  .mobile-nav {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 150;
-    background: rgba(6,12,20,0.97);
-    backdrop-filter: blur(20px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .mobile-nav.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .mobile-nav a {
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 2rem;
-    color: var(--text);
-    text-decoration: none;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .mobile-nav a:hover { color: var(--cyan); }
-
-  /* ===== RESPONSIVE — TABLET (≤900px) ===== */
-  @media (max-width: 900px) {
-    /* Nav */
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .nav-hamburger { display: flex; }
-    .mobile-nav { display: flex; }
-
-    /* Hero */
-    .hero { padding: 6rem 1.5rem 4rem; min-height: 100svh; }
-    .hero-coords { display: none; }
-    .hero-name { font-size: clamp(3rem, 12vw, 5rem); letter-spacing: -1px; }
-    .hero-subtitle { font-size: 0.72rem; letter-spacing: 1px; }
-    .hero-desc { font-size: 0.9rem; max-width: 100%; }
-    .hero-cta { flex-wrap: wrap; gap: 0.8rem; }
-    .btn-primary, .btn-secondary { padding: 0.8rem 1.5rem; font-size: 0.72rem; }
-
-    /* Stats */
-    .stats-bar { padding: 1.5rem 1.5rem; gap: 1.5rem 3rem; }
-    .stat-num { font-size: 2rem; }
-
-    /* Sections */
-    .section-inner { padding: 4rem 1.5rem; }
-    .section-title { font-size: clamp(1.8rem, 6vw, 2.5rem); margin-bottom: 2rem; }
-
-    /* About */
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-card { padding: 1.8rem; }
-
-    /* Projects */
-    .projects-grid { grid-template-columns: 1fr; gap: 1.2rem; }
-
-    /* Skills */
-    .skills-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-    /* Education */
-    .edu-grid { grid-template-columns: 1fr; gap: 1rem; }
-
-    /* Contact */
-    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-
-    /* Footer */
-    footer { padding: 1.5rem 1.5rem; flex-direction: column; gap: 0.6rem; text-align: center; }
-  }
-
-  /* ===== RESPONSIVE — MOBILE (≤600px) ===== */
-  @media (max-width: 600px) {
-    /* Nav */
-    nav { padding: 0.9rem 1.2rem; }
-    .nav-logo { font-size: 0.75rem; }
-
-    /* Hero */
-    .hero { padding: 5.5rem 1.2rem 3rem; }
-    .hero-tag { font-size: 0.65rem; letter-spacing: 1.5px; }
-    .hero-tag::before { width: 20px; }
-    .hero-name { font-size: clamp(2.8rem, 14vw, 4.5rem); }
-    .hero-subtitle { font-size: 0.65rem; letter-spacing: 0.5px; word-break: break-all; }
-    .hero-desc { font-size: 0.88rem; line-height: 1.7; }
-    .hero-cta { flex-direction: column; align-items: flex-start; }
-    .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 0.9rem 1.2rem; }
-
-    /* Stats */
-    .stats-bar { padding: 1.5rem 1rem; gap: 1rem 2rem; }
-    .stat-num { font-size: 1.8rem; }
-    .stat-label { font-size: 0.6rem; }
-
-    /* Sections */
-    .section-inner { padding: 3rem 1.2rem; }
-    .section-label { font-size: 0.62rem; letter-spacing: 1.5px; }
-    .section-title { font-size: clamp(1.6rem, 8vw, 2.2rem); letter-spacing: -0.5px; }
-
-    /* About */
-    .about-card { padding: 1.3rem; }
-    .skill-bar-header { font-size: 0.78rem; }
-
-    /* Timeline */
-    .timeline { padding-left: 1.2rem; }
-    .timeline-item { padding: 0 0 2.5rem 2rem; }
-    .timeline-dot { left: -1.2rem; }
-    .timeline-role { font-size: 1.1rem; }
-    .timeline-company { font-size: 0.68rem; }
-    .timeline-bullets li { font-size: 0.82rem; }
-
-    /* Projects */
-    .projects-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .project-card { padding: 1.3rem; }
-    .project-title { font-size: 0.95rem; }
-    .project-desc { font-size: 0.8rem; }
-
-    /* Skills */
-    .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .skill-category { padding: 1.3rem; }
-
-    /* Education */
-    .edu-card { padding: 1.3rem; }
-    .edu-degree { font-size: 0.92rem; }
-    .cert-item { padding: 1rem 1.2rem; }
-    .cert-title { font-size: 0.82rem; }
-
-    /* Contact */
-    .contact-heading { font-size: clamp(2rem, 9vw, 3rem); }
-    .contact-sub { font-size: 0.88rem; }
-    .contact-item { padding: 1rem 1.2rem; }
-    .contact-item-value { font-size: 0.82rem; word-break: break-all; }
-
-    /* Footer */
-    footer { padding: 1.2rem 1.2rem; }
-    .footer-copy, .footer-badge { font-size: 0.62rem; }
-  }
-
-  /* ===== RESPONSIVE — SMALL MOBILE (≤380px) ===== */
-  @media (max-width: 380px) {
-    .hero-name { font-size: clamp(2.4rem, 16vw, 3.5rem); }
-    .hero-subtitle { display: none; }
-    .stat-num { font-size: 1.5rem; }
-    .stats-bar { gap: 0.8rem 1.5rem; }
-    .section-title { font-size: clamp(1.4rem, 9vw, 2rem); }
-    .timeline-role { font-size: 1rem; }
-    .contact-heading { font-size: clamp(1.8rem, 10vw, 2.5rem); }
-  }
-
-  /* ===== TOUCH DEVICE — remove hover effects that feel wrong on mobile ===== */
-  @media (hover: none) {
-    .project-card:hover { transform: translateY(0) !important; box-shadow: none; }
-    .btn-primary:hover { transform: none; }
-    .contact-item:hover { box-shadow: none; }
-  }
+:root {
+  --cream:  #f5f0e8;
+  --cream2: #ede7d9;
+  --cream3: #e4dccb;
+  --ink:    #1a1612;
+  --ink2:   #2e2820;
+  --olive:  #4a5c3a;
+  --olive2: #637a4e;
+  --olive3: #8aa870;
+  --muted:  #7a6f61;
+  --border: #c8bfad;
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Plus Jakarta Sans', sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);overflow-x:hidden;line-height:1.6}
+
+/* noise */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+
+/* ===== SIDE NAV ===== */
+.sidenav{position:fixed;left:0;top:0;bottom:0;width:72px;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:2.5rem 0;border-right:1px solid var(--border);background:var(--cream)}
+.sidenav-logo{font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--ink);writing-mode:vertical-rl;letter-spacing:3px;text-transform:uppercase;transform:rotate(180deg)}
+.sidenav-links{display:flex;flex-direction:column;align-items:center;gap:2rem;list-style:none}
+.sidenav-links a{font-family:var(--sans);font-size:0.58rem;font-weight:600;color:var(--muted);text-decoration:none;letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);transition:color .3s;padding:.5rem 0}
+.sidenav-links a:hover,.sidenav-links a.active{color:var(--olive)}
+.sidenav-line{width:1px;height:60px;background:var(--border)}
+
+/* ===== MOBILE TOP NAV ===== */
+.topnav{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:var(--cream);border-bottom:1px solid var(--border);padding:1rem 1.5rem;justify-content:space-between;align-items:center}
+.topnav-logo{font-family:var(--serif);font-weight:700;font-size:1.05rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink)}
+.topnav-burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px}
+.topnav-burger span{display:block;width:26px;height:1.5px;background:var(--ink);transition:all .3s;transform-origin:center}
+.topnav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.topnav-burger.open span:nth-child(2){opacity:0}
+.topnav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mobile-drawer{display:none;position:fixed;inset:0;z-index:190;background:var(--cream);flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.mobile-drawer.open{opacity:1;pointer-events:all}
+.mobile-drawer a{font-family:var(--serif);font-size:2.5rem;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:1px;transition:color .2s}
+.mobile-drawer a:hover{color:var(--olive)}
+
+/* ===== MAIN ===== */
+.main{margin-left:72px}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.hero-left{background:var(--ink);padding:5rem 4rem 5rem 5rem;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-left::before{content:'';position:absolute;top:-120px;left:-120px;width:450px;height:450px;border-radius:50%;background:radial-gradient(circle,rgba(74,92,58,.28) 0%,transparent 70%);pointer-events:none}
+.hero-overline{font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--olive3);display:flex;align-items:center;gap:1rem;animation:fadeUp .8s ease both}
+.hero-overline::before{content:'';display:block;width:32px;height:1px;background:var(--olive3)}
+.hero-name{font-family:var(--serif);font-weight:300;font-size:clamp(3.5rem,6vw,6.5rem);line-height:1;color:var(--cream);letter-spacing:-1px;animation:fadeUp .8s .15s ease both}
+.hero-name em{font-style:italic;color:var(--olive3);display:block}
+.hero-tagline{font-family:var(--sans);font-size:.8rem;font-weight:400;color:rgba(245,240,232,.45);letter-spacing:.5px;line-height:1.95;max-width:340px;animation:fadeUp .8s .3s ease both}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .45s ease both}
+.btn-solid{background:var(--olive);color:var(--cream);padding:.85rem 2.2rem;font-family:var(--sans);font-size:.73rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;border:1px solid transparent}
+.btn-solid:hover{background:var(--olive2);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--cream);padding:.85rem 2.2rem;font-family:var(--sans);font-size:.73rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border:1px solid rgba(245,240,232,.25);transition:all .3s}
+.btn-outline:hover{border-color:var(--olive3);color:var(--olive3)}
+
+.hero-right{background:var(--cream2);padding:5rem 4rem;display:flex;flex-direction:column;justify-content:center;gap:3rem}
+.hero-right-label{font-family:var(--sans);font-size:.63rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem}
+.hero-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem 1.5rem}
+.hero-stat-num{font-family:var(--serif);font-size:3.5rem;font-weight:600;color:var(--ink);line-height:1}
+.hero-stat-unit{font-family:var(--serif);font-size:1.6rem;color:var(--olive)}
+.hero-stat-label{font-family:var(--sans);font-size:.7rem;font-weight:500;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:.4rem}
+.hero-contact-strip{border-top:1px solid var(--border);padding-top:2rem;display:flex;flex-direction:column;gap:.65rem}
+.hero-contact-row{display:flex;justify-content:space-between;align-items:center}
+.hero-contact-row span:first-child{font-family:var(--sans);font-weight:600;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.hero-contact-row a,.hero-contact-row span:last-child{color:var(--ink);text-decoration:none;font-size:.82rem;font-weight:500;transition:color .2s}
+.hero-contact-row a:hover{color:var(--olive)}
+
+/* ===== SECTIONS ===== */
+.section{position:relative}
+.section-inner{max-width:1080px;margin:0 auto;padding:7rem 4rem}
+.section-header{display:flex;align-items:baseline;gap:2rem;margin-bottom:4rem;border-bottom:1px solid var(--border);padding-bottom:1.5rem;flex-wrap:wrap}
+.section-num{font-family:var(--serif);font-size:.9rem;font-style:italic;color:var(--muted);letter-spacing:1px;flex-shrink:0}
+.section-title{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;color:var(--ink);letter-spacing:-.5px;line-height:1.1}
+.section-title em{font-style:italic;color:var(--olive)}
+
+/* ===== ABOUT ===== */
+.about-section{background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:6rem;align-items:start}
+.about-body p{font-size:.97rem;color:var(--muted);line-height:1.95;margin-bottom:1.4rem}
+.about-body p strong{color:var(--ink);font-weight:600}
+.about-pull-quote{font-family:var(--serif);font-size:1.65rem;font-weight:300;font-style:italic;color:var(--ink2);line-height:1.5;border-left:3px solid var(--olive);padding-left:1.5rem;margin:2.5rem 0}
+.skill-section-title{font-family:var(--sans);font-size:.63rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:1.8rem}
+.skill-bars{display:flex;flex-direction:column;gap:1.5rem}
+.skill-bar-top{display:flex;justify-content:space-between;margin-bottom:.55rem;align-items:baseline}
+.skill-name{font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--ink)}
+.skill-pct{font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--olive)}
+.skill-track{height:2px;background:var(--cream3);position:relative}
+.skill-fill{height:100%;background:var(--olive);width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1);position:relative}
+.skill-fill.go{width:var(--w)}
+.skill-fill::after{content:'';position:absolute;right:-3px;top:-3px;width:8px;height:8px;background:var(--olive);border-radius:50%;border:2px solid var(--cream)}
+.lang-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.5rem}
+.lang-pill{background:var(--cream3);border:1px solid var(--border);color:var(--ink2);padding:.4rem 1.2rem;font-family:var(--sans);font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+/* ===== EXPERIENCE ===== */
+.exp-section{background:var(--ink)}
+.exp-section .section-title{color:var(--cream)}
+.exp-section .section-num{color:rgba(245,240,232,.3)}
+.exp-section .section-header{border-bottom-color:rgba(245,240,232,.1)}
+.timeline{display:flex;flex-direction:column}
+.timeline-item{display:grid;grid-template-columns:180px 1fr;gap:3rem;padding:3rem 0;border-bottom:1px solid rgba(245,240,232,.08);opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.timeline-item:last-child{border-bottom:none}
+.timeline-item.vis{opacity:1;transform:none}
+.tl-year{font-family:var(--serif);font-size:2.5rem;font-weight:300;font-style:italic;color:var(--olive3);line-height:1;display:block}
+.tl-period{font-family:var(--sans);font-size:.62rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,.28);display:block;margin-top:.5rem}
+.tl-role{font-family:var(--serif);font-size:1.8rem;font-weight:600;color:var(--cream);line-height:1.2;margin-bottom:.4rem}
+.tl-company{font-family:var(--sans);font-size:.73rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--olive3);margin-bottom:1.5rem}
+.tl-bullets{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.tl-bullets li{font-family:var(--sans);font-size:.86rem;color:rgba(245,240,232,.5);line-height:1.75;display:flex;gap:1rem;align-items:flex-start}
+.tl-bullets li::before{content:'—';color:var(--olive3);flex-shrink:0;font-size:.8rem;margin-top:.1rem}
+
+/* ===== PROJECTS ===== */
+.proj-section{background:var(--cream)}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border)}
+.proj-card{padding:2.5rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease,background .3s}
+.proj-card:nth-child(even){border-right:none}
+.proj-card:nth-last-child(-n+2){border-bottom:none}
+.proj-card.vis{opacity:1;transform:none}
+.proj-card:hover{background:var(--cream2)}
+.proj-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--olive);transition:height .4s ease}
+.proj-card:hover::before{height:100%}
+.proj-num{font-family:var(--serif);font-size:2.5rem;font-weight:300;font-style:italic;color:var(--cream3);line-height:1;margin-bottom:1rem}
+.proj-title{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:.8rem}
+.proj-desc{font-family:var(--sans);font-size:.82rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.proj-tag{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.22rem .8rem;font-family:var(--sans);font-size:.6rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+.proj-card:hover .proj-tag{border-color:var(--olive3);color:var(--olive)}
+
+/* ===== SKILLS ===== */
+.skills-section{background:var(--cream2)}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem}
+.skill-cat-icon{font-size:1.8rem;margin-bottom:1rem;display:block}
+.skill-cat-title{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:.4rem}
+.skill-cat-divider{width:32px;height:2px;background:var(--olive);margin-bottom:1.2rem}
+.skill-cat-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.skill-cat-list li{font-family:var(--sans);font-size:.82rem;color:var(--muted);line-height:1.5;padding-left:1rem;position:relative}
+.skill-cat-list li::before{content:'';position:absolute;left:0;top:.55em;width:4px;height:4px;background:var(--olive3);border-radius:50%}
+
+/* ===== EDUCATION ===== */
+.edu-section{background:var(--cream)}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem}
+.edu-col-title{font-family:var(--sans);font-size:.63rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem}
+.edu-col-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.edu-items{display:flex;flex-direction:column;gap:2rem}
+.edu-item{display:grid;grid-template-columns:80px 1fr;gap:1.5rem;align-items:start}
+.edu-year-block{font-family:var(--serif);font-size:1.6rem;font-weight:300;font-style:italic;color:var(--olive);line-height:1;padding-top:.2rem}
+.edu-degree{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;line-height:1.4}
+.edu-school{font-family:var(--sans);font-size:.78rem;color:var(--muted);margin-bottom:.3rem}
+.edu-score{font-family:var(--sans);font-size:.7rem;font-weight:600;color:var(--olive2);letter-spacing:1px}
+.cert-items{display:flex;flex-direction:column;gap:1.4rem}
+.cert-item{padding:1.4rem;background:var(--cream2);border:1px solid var(--border);border-left:3px solid var(--olive3);transition:border-color .3s}
+.cert-item:hover{border-left-color:var(--olive)}
+.cert-name{font-family:var(--sans);font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:.35rem;line-height:1.5}
+.cert-org{font-family:var(--sans);font-size:.7rem;color:var(--muted)}
+
+/* ===== CONTACT ===== */
+.contact-section{background:var(--ink2);overflow:hidden}
+.contact-inner{max-width:1080px;margin:0 auto;padding:7rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.contact-big-text{font-family:var(--serif);font-size:clamp(3rem,5vw,5.5rem);font-weight:300;color:var(--cream);line-height:1.1;letter-spacing:-1px}
+.contact-big-text em{font-style:italic;color:var(--olive3);display:block}
+.contact-sub{font-family:var(--sans);font-size:.88rem;color:rgba(245,240,232,.42);line-height:1.85;margin-top:1.5rem;max-width:380px}
+.contact-list{display:flex;flex-direction:column;gap:1px}
+.contact-row{display:flex;align-items:center;gap:1.5rem;padding:1.3rem 1.5rem;background:rgba(245,240,232,.04);text-decoration:none;color:var(--cream);transition:background .3s;cursor:pointer}
+.contact-row:hover{background:rgba(74,92,58,.22)}
+.contact-row-icon{width:38px;height:38px;background:rgba(245,240,232,.06);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:var(--olive3)}
+.contact-row-label{font-family:var(--sans);font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(245,240,232,.28);display:block;margin-bottom:.2rem}
+.contact-row-val{font-family:var(--sans);font-size:.88rem;font-weight:500;color:var(--cream)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--ink);border-top:1px solid rgba(245,240,232,.07);padding:2rem 4rem;margin-left:72px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;position:relative;z-index:1}
+.footer-copy{font-family:var(--sans);font-size:.68rem;color:rgba(245,240,232,.22);letter-spacing:1px}
+.footer-right{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--olive3)}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+/* ===== RESPONSIVE TABLET ≤900px ===== */
+@media(max-width:900px){
+  .sidenav{display:none}
+  .topnav{display:flex}
+  .mobile-drawer{display:flex}
+  .main{margin-left:0}
+  footer{margin-left:0}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-left{padding:6rem 2rem 3rem}
+  .hero-right{padding:3rem 2rem}
+  .hero-stat-grid{grid-template-columns:1fr 1fr}
+  .section-inner{padding:5rem 2rem}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .skills-grid{grid-template-columns:1fr 1fr;gap:2rem}
+  .edu-grid{grid-template-columns:1fr;gap:3rem}
+  .contact-inner{grid-template-columns:1fr;gap:3rem;padding:5rem 2rem}
+  .proj-grid{grid-template-columns:1fr}
+  .proj-card{border-right:none!important}
+  .proj-card:nth-last-child(-n+2){border-bottom:1px solid var(--border)!important}
+  .proj-card:last-child{border-bottom:none!important}
+  .timeline-item{grid-template-columns:1fr;gap:1rem}
+  footer{padding:1.5rem 2rem}
+}
+
+/* ===== RESPONSIVE MOBILE ≤600px ===== */
+@media(max-width:600px){
+  .hero-left{padding:5.5rem 1.5rem 2.5rem}
+  .hero-name{font-size:clamp(2.8rem,12vw,4rem)}
+  .hero-btns{flex-direction:column}
+  .btn-solid,.btn-outline{text-align:center}
+  .hero-right{padding:2.5rem 1.5rem}
+  .hero-stat-num{font-size:2.8rem}
+  .section-inner{padding:4rem 1.5rem}
+  .section-title{font-size:clamp(1.8rem,8vw,2.5rem)}
+  .skills-grid{grid-template-columns:1fr}
+  .about-pull-quote{font-size:1.3rem}
+  .tl-role{font-size:1.4rem}
+  .proj-card{padding:1.8rem 1.5rem}
+  .proj-num{font-size:2rem}
+  .edu-item{grid-template-columns:60px 1fr;gap:1rem}
+  .edu-year-block{font-size:1.3rem}
+  .contact-big-text{font-size:clamp(2.2rem,9vw,3.5rem)}
+  .contact-inner{padding:4rem 1.5rem}
+  footer{padding:1.2rem 1.5rem;flex-direction:column;text-align:center}
+}
+
+@media(max-width:380px){
+  .hero-name{font-size:clamp(2.3rem,14vw,3rem)}
+  .hero-stat-grid{grid-template-columns:1fr}
+}
+
+@media(hover:none){
+  .proj-card:hover{background:var(--cream)}
+  .proj-card:hover::before{height:0}
+  .btn-solid:hover{transform:none}
+}
 </style>
 </head>
 <body>
 
-<div class="topo-bg"></div>
-<div class="grid-overlay"></div>
-<div class="cursor" id="cursor"></div>
-
-<!-- MOBILE NAV DRAWER -->
-<div class="mobile-nav" id="mobileNav">
-  <a href="#about" onclick="closeMenu()">About</a>
-  <a href="#experience" onclick="closeMenu()">Experience</a>
-  <a href="#projects" onclick="closeMenu()">Projects</a>
-  <a href="#skills" onclick="closeMenu()">Skills</a>
-  <a href="#education" onclick="closeMenu()">Education</a>
-  <a href="#contact" onclick="closeMenu()">Contact</a>
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#about" onclick="closeDrawer()">About</a>
+  <a href="#experience" onclick="closeDrawer()">Experience</a>
+  <a href="#projects" onclick="closeDrawer()">Projects</a>
+  <a href="#skills" onclick="closeDrawer()">Skills</a>
+  <a href="#education" onclick="closeDrawer()">Education</a>
+  <a href="#contact" onclick="closeDrawer()">Contact</a>
 </div>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">HP // Portfolio</div>
-  <ul class="nav-links">
+<!-- MOBILE TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-logo">H. Pandey</div>
+  <button class="topnav-burger" id="burger" onclick="toggleDrawer()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- SIDE NAV (desktop) -->
+<aside class="sidenav">
+  <div class="sidenav-logo">H. Pandey</div>
+  <ul class="sidenav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#experience">Experience</a></li>
+    <li><a href="#experience">Work</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+  <div class="sidenav-line"></div>
+</aside>
 
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="scan-line"></div>
-  <div class="hero-tag">Geomatics Engineer & GIS Specialist</div>
-  <h1 class="hero-name">Hastaraj<br><span>Pandey</span></h1>
-  <div class="hero-subtitle">// UAV-LiDAR · Remote Sensing · Spatial Analytics · 3D Modeling</div>
-  <p class="hero-desc">
-    Transforming terrain into data — from helicopter-mounted LiDAR at 900 km² scale to centimeter-precision bathymetric surveys, I map the world's complexity one point cloud at a time.
-  </p>
-  <div class="hero-cta">
-    <a href="#projects" class="btn-primary">View Projects ›</a>
-    <a href="#contact" class="btn-secondary">Get in Touch</a>
-  </div>
+<div class="main">
 
-  <div class="hero-coords">
-    <div class="coord-line">
-      <div class="coord-dot"></div>
-      <span>27°42'N · 85°19'E</span>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="hero-overline">Geomatics Engineer · Nepal</div>
+      <h1 class="hero-name">Hastaraj<em>Pandey</em></h1>
+      <p class="hero-tagline">UAV-LiDAR surveys · Bathymetric mapping · Remote sensing analytics · 3D photogrammetry · Geospatial data processing</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-solid">View Projects</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
     </div>
-    <div class="coord-line">Kathmandu, Nepal</div>
-    <div class="coord-line" style="margin-top:0.5rem; color: var(--cyan);">— ACTIVE —</div>
-  </div>
-</section>
+    <div class="hero-right">
+      <div>
+        <div class="hero-right-label">By the numbers</div>
+        <div class="hero-stat-grid">
+          <div><div class="hero-stat-num">5<span class="hero-stat-unit">+</span></div><div class="hero-stat-label">Years Experience</div></div>
+          <div><div class="hero-stat-num">900<span class="hero-stat-unit">km²</span></div><div class="hero-stat-label">Largest Survey Area</div></div>
+          <div><div class="hero-stat-num">6<span class="hero-stat-unit">+</span></div><div class="hero-stat-label">Major Projects</div></div>
+          <div><div class="hero-stat-num">±8<span class="hero-stat-unit">cm</span></div><div class="hero-stat-label">Vertical Accuracy</div></div>
+        </div>
+      </div>
+      <div class="hero-contact-strip">
+        <div class="hero-contact-row"><span>Email</span><a href="mailto:hrpandey2022@gmail.com">hrpandey2022@gmail.com</a></div>
+        <div class="hero-contact-row"><span>Phone</span><a href="tel:+9779861397358">+977 9861397358</a></div>
+        <div class="hero-contact-row"><span>Location</span><span>Kathmandu, Nepal</span></div>
+      </div>
+    </div>
+  </section>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num">5+</div>
-    <div class="stat-label">Years Experience</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">900</div>
-    <div class="stat-label">km² Surveyed (LiDAR)</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">6+</div>
-    <div class="stat-label">Major Projects</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">±8cm</div>
-    <div class="stat-label">Vertical Accuracy</div>
-  </div>
+  <!-- ABOUT -->
+  <section class="section about-section" id="about">
+    <div class="section-inner">
+      <div class="section-header"><span class="section-num">01.</span><h2 class="section-title">About <em>Me</em></h2></div>
+      <div class="about-grid">
+        <div class="about-body">
+          <p>I'm a <strong>Geomatics Engineer and Senior Surveyor</strong> based in Kathmandu, Nepal, holding a Diploma in Geomatics Engineering and a Bachelor of Arts in Geography. With over five years in the field, I specialize in turning raw terrain data into precise, decision-ready geospatial deliverables.</p>
+          <div class="about-pull-quote">"Mapping the unmapped — one point cloud at a time."</div>
+          <p>My expertise spans the complete geospatial pipeline: from <strong>helicopter-mounted LiDAR acquisition</strong> over hundreds of square kilometres, to millimetre-precision <strong>terrestrial laser scanning</strong> of heritage structures, to <strong>bathymetric surveys</strong> of Nepal's critical reservoirs.</p>
+          <p>I'm drawn toward integrating <strong>machine learning and advanced remote sensing</strong> for land surface dynamics, environmental monitoring, and infrastructure planning — with a growing focus on AI-assisted change detection and flood risk modelling.</p>
+          <div class="lang-row">
+            <span class="lang-pill">English ●●●●</span>
+            <span class="lang-pill">Nepali ●●●●</span>
+            <span class="lang-pill">Hindi ●●●</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-section-title">Technical Proficiency</div>
+          <div class="skill-bars">
+            <div class="skill-bar-item"><div class="skill-bar-top"><span class="skill-name">ArcGIS Pro / QGIS</span><span class="skill-pct">95%</span></div><div class="skill-track"><div class="skill-fill" style="--w:95%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-top"><span class="skill-name">UAV / LiDAR Processing</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill" style="--w:92%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-top"><span class="skill-name">Pix4D / Agisoft Metashape</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="--w:90%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-top"><span class="skill-name">ENVI Remote Sensing</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" style="--w:85%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-top"><span class="skill-name">Bathymetric Survey</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" style="--w:88%"></div></div></div>
+            <div class="skill-bar-item"><div class="skill-bar-top"><span class="skill-name">Python / Geospatial Workflows</span><span class="skill-pct">70%</span></div><div class="skill-track"><div class="skill-fill" style="--w:70%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section exp-section" id="experience">
+    <div class="section-inner">
+      <div class="section-header"><span class="section-num">02.</span><h2 class="section-title" style="color:var(--cream)">Work <em style="color:var(--olive3)">Experience</em></h2></div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-meta"><span class="tl-year">2019</span><span class="tl-period">Sept 2019 — Present</span></div>
+          <div class="tl-content">
+            <div class="tl-role">Senior Geomatics Surveyor</div>
+            <div class="tl-company">Geo-3D Modelling Pvt. Ltd · Kathmandu</div>
+            <ul class="tl-bullets">
+              <li>Led geospatial mapping projects — bathymetric surveys, topographic mapping, and hydrological assessments across Nepal.</li>
+              <li>Acquired and processed LiDAR, UAV, and GNSS data to produce high-resolution DEMs, DTMs, and 3D models.</li>
+              <li>Analyzed multispectral and radar imagery in ENVI and ArcGIS Pro for land cover mapping, flood modeling, and change detection.</li>
+              <li>Generated topographic maps, 3D visualizations, and technical reports with rigorous quality control.</li>
+              <li>Conducted pre-field planning including risk assessment and safety protocols for every project.</li>
+              <li>Collaborated with engineers, planners, and architects on infrastructure projects.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-meta"><span class="tl-year">2019</span><span class="tl-period">June 2019 — Aug 2019</span></div>
+          <div class="tl-content">
+            <div class="tl-role">Intern Geomatics Surveyor</div>
+            <div class="tl-company">Motherland Hydro · Kathmandu</div>
+            <ul class="tl-bullets">
+              <li>Collected topographic data using Total Station and DGPS instruments.</li>
+              <li>Assisted with layout design of Headwork, Pipeline, and Powerhouse for the Lekhu Hydropower Project.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section proj-section" id="projects">
+    <div class="section-inner">
+      <div class="section-header"><span class="section-num">03.</span><h2 class="section-title">Signature <em>Projects</em></h2></div>
+      <div class="proj-grid">
+        <div class="proj-card">
+          <div class="proj-num">01</div>
+          <div class="proj-title">Airborne LiDAR — Sagarnath Forest Area</div>
+          <p class="proj-desc">Helicopter-mounted LiDAR covering ~280 km² at 30–80 pts/m². Produced orthophotos, DSM, DTM, 0.5m/1m contours. ±8–12 cm vertical accuracy via DGPS ground control.</p>
+          <div class="proj-tags"><span class="proj-tag">Airborne LiDAR</span><span class="proj-tag">DTM/DSM</span><span class="proj-tag">DGPS</span><span class="proj-tag">280 km²</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-num">02</div>
+          <div class="proj-title">Bagmati Irrigation Topographic Mapping</div>
+          <p class="proj-desc">900 km² airborne LiDAR survey. Full pipeline from flight planning and PPK trajectory computation to final DTM, DSM, and orthophoto deliverables for irrigation infrastructure.</p>
+          <div class="proj-tags"><span class="proj-tag">900 km²</span><span class="proj-tag">Airborne LiDAR</span><span class="proj-tag">PPK</span><span class="proj-tag">Irrigation</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-num">03</div>
+          <div class="proj-title">UAV-LiDAR Survey — 50 MW Solar PV, Rolpa</div>
+          <p class="proj-desc">DJI Matrice 300 RTK with Penmuse P1 + H600 LiDAR. Generated 3D point clouds, DEM, DSM, and orthomosaic using LiGeoreference, LiDAR360, and DJI Terra.</p>
+          <div class="proj-tags"><span class="proj-tag">UAV LiDAR</span><span class="proj-tag">Solar PV</span><span class="proj-tag">DJI M300 RTK</span><span class="proj-tag">Orthomosaic</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-num">04</div>
+          <div class="proj-title">Bathymetric Survey — Phewa & Kulekhani Lakes</div>
+          <p class="proj-desc">RTK echo sounding for detailed underwater terrain modeling fused with UAV imagery. Sedimentation volume analysis for Kulekhani reservoir capacity assessment.</p>
+          <div class="proj-tags"><span class="proj-tag">Bathymetry</span><span class="proj-tag">RTK Echo-Sounder</span><span class="proj-tag">Sedimentation</span><span class="proj-tag">3D Modeling</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-num">05</div>
+          <div class="proj-title">Flood Risk Assessment — Chandrauta Solar Site</div>
+          <p class="proj-desc">GIS-based hydrological study with peak discharge modeling, catchment analysis, and drainage delineation. Produced flood risk maps for solar infrastructure planning.</p>
+          <div class="proj-tags"><span class="proj-tag">Flood Modeling</span><span class="proj-tag">GIS Hydrology</span><span class="proj-tag">UAV DEM</span><span class="proj-tag">Risk Mapping</span></div>
+        </div>
+        <div class="proj-card">
+          <div class="proj-num">06</div>
+          <div class="proj-title">3D Heritage Documentation — Krishna Mandir</div>
+          <p class="proj-desc">FARO Focus Premium TLS for high-precision documentation of historic temple. Multi-position scan registration in FARO Scene with noise filtering and georeferencing.</p>
+          <div class="proj-tags"><span class="proj-tag">TLS</span><span class="proj-tag">FARO Scene</span><span class="proj-tag">Heritage</span><span class="proj-tag">Point Cloud</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section skills-section" id="skills">
+    <div class="section-inner">
+      <div class="section-header"><span class="section-num">04.</span><h2 class="section-title">Technical <em>Arsenal</em></h2></div>
+      <div class="skills-grid">
+        <div class="skill-cat"><span class="skill-cat-icon">🗺️</span><div class="skill-cat-title">GIS Software</div><div class="skill-cat-divider"></div><ul class="skill-cat-list"><li>ArcGIS Pro</li><li>QGIS</li><li>Global Mapper</li><li>ArcGIS Online</li></ul></div>
+        <div class="skill-cat"><span class="skill-cat-icon">📡</span><div class="skill-cat-title">Remote Sensing</div><div class="skill-cat-divider"></div><ul class="skill-cat-list"><li>LiGeoreference / LiDAR360</li><li>FARO Scene</li><li>ENVI</li><li>Pix4D Mapper</li><li>Agisoft Metashape</li></ul></div>
+        <div class="skill-cat"><span class="skill-cat-icon">🚁</span><div class="skill-cat-title">Survey Instruments</div><div class="skill-cat-divider"></div><ul class="skill-cat-list"><li>DJI Matrice 300 RTK</li><li>DGPS / RTK-GNSS</li><li>Echo-Sounder</li><li>Total Station</li><li>Theodolite</li></ul></div>
+        <div class="skill-cat"><span class="skill-cat-icon">📊</span><div class="skill-cat-title">Data & Analysis</div><div class="skill-cat-divider"></div><ul class="skill-cat-list"><li>Python Workflows</li><li>DJI Terra</li><li>Flood Hydrological Modeling</li><li>Point Cloud QC</li><li>RMSE Analysis</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section edu-section" id="education">
+    <div class="section-inner">
+      <div class="section-header"><span class="section-num">05.</span><h2 class="section-title">Education &amp; <em>Certifications</em></h2></div>
+      <div class="edu-grid">
+        <div>
+          <div class="edu-col-title">Academic Background</div>
+          <div class="edu-items">
+            <div class="edu-item"><div class="edu-year-block">2024</div><div><div class="edu-degree">Bachelor of Arts (B.A.)</div><div class="edu-school">Tribhuvan University, Ratna Rajyalaxmi Campus</div><div class="edu-score">Major: Geography · 63.35%</div></div></div>
+            <div class="edu-item"><div class="edu-year-block">2020</div><div><div class="edu-degree">Diploma in Geomatics Engineering</div><div class="edu-school">Land Management Training Center, Dhulikhel</div><div class="edu-score">65.9%</div></div></div>
+            <div class="edu-item"><div class="edu-year-block">2015</div><div><div class="edu-degree">Secondary Education Examination</div><div class="edu-school">Pancha Dev Secondary School, Kalikot</div><div class="edu-score">67.13%</div></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="edu-col-title">Certifications &amp; Training</div>
+          <div class="cert-items">
+            <div class="cert-item"><div class="cert-name">AI-Supported Landslide Detection &amp; Susceptibility Analysis — Sentinel-2, Land Surface Parameters &amp; Radar Remote Sensing</div><div class="cert-org">G.E.O.S Ingenieurgesellschaft mbH · Dept. of Mines and Geology</div></div>
+            <div class="cert-item"><div class="cert-name">Training on DGPS and Terrestrial LiDAR Scanner</div><div class="cert-org">Geo Three D Modelling Pvt. Ltd</div></div>
+            <div class="cert-item"><div class="cert-name">ArcGIS, QGIS, Remote Sensing, Drones &amp; UAVs</div><div class="cert-org">Geo Three D Modelling Pvt. Ltd</div></div>
+            <div class="cert-item"><div class="cert-name">Global Navigation Satellite System (GNSS) Training</div><div class="cert-org">Geo Three D Modelling Pvt. Ltd</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact-section" id="contact">
+    <div class="contact-inner">
+      <div>
+        <div class="contact-big-text">Let's work<em>together.</em></div>
+        <p class="contact-sub">Open to geospatial projects, remote sensing collaborations, and GIS consulting across Nepal and beyond. Let's map something extraordinary.</p>
+      </div>
+      <div class="contact-list">
+        <a href="mailto:hrpandey2022@gmail.com" class="contact-row"><div class="contact-row-icon">✉</div><div><span class="contact-row-label">Email</span><span class="contact-row-val">hrpandey2022@gmail.com</span></div></a>
+        <a href="tel:+9779861397358" class="contact-row"><div class="contact-row-icon">📱</div><div><span class="contact-row-label">Phone</span><span class="contact-row-val">+977 9861397358</span></div></a>
+        <div class="contact-row"><div class="contact-row-icon">📍</div><div><span class="contact-row-label">Location</span><span class="contact-row-val">Kathmandu, Bagmati, Nepal</span></div></div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-visual">
-        <div class="about-card">
-          <div class="corner-deco tl"></div>
-          <div class="corner-deco br"></div>
-          <div class="about-card-title">// Technical Proficiency</div>
-
-          <div class="skill-bar-item">
-            <div class="skill-bar-header"><span>ArcGIS Pro / QGIS</span><span>95%</span></div>
-            <div class="skill-track"><div class="skill-fill" style="--w:95%"></div></div>
-          </div>
-          <div class="skill-bar-item">
-            <div class="skill-bar-header"><span>UAV / LiDAR Processing</span><span>92%</span></div>
-            <div class="skill-track"><div class="skill-fill" style="--w:92%"></div></div>
-          </div>
-          <div class="skill-bar-item">
-            <div class="skill-bar-header"><span>Photogrammetry (Pix4D/Agisoft)</span><span>90%</span></div>
-            <div class="skill-track"><div class="skill-fill" style="--w:90%"></div></div>
-          </div>
-          <div class="skill-bar-item">
-            <div class="skill-bar-header"><span>Remote Sensing (ENVI)</span><span>85%</span></div>
-            <div class="skill-track"><div class="skill-fill" style="--w:85%"></div></div>
-          </div>
-          <div class="skill-bar-item">
-            <div class="skill-bar-header"><span>Bathymetric Survey</span><span>88%</span></div>
-            <div class="skill-track"><div class="skill-fill" style="--w:88%"></div></div>
-          </div>
-          <div class="skill-bar-item">
-            <div class="skill-bar-header"><span>Python / Geospatial Workflows</span><span>70%</span></div>
-            <div class="skill-track"><div class="skill-fill" style="--w:70%"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="about-text">
-        <div class="section-label">01 // About</div>
-        <h2 class="section-title" style="margin-bottom:1.5rem;">Mapping the<br>Unmapped</h2>
-        <p>
-          I'm a <span class="highlight-text">Geomatics Engineer</span> and Senior Surveyor based in Kathmandu, Nepal, with a Diploma in Geomatics Engineering and a Bachelor's in Arts (Geography). I bring deep expertise in the full pipeline from field data acquisition to polished geospatial deliverables.
-        </p>
-        <p>
-          My work spans <span class="highlight-text">helicopter-mounted LiDAR surveys, UAV photogrammetry, bathymetric mapping, flood risk modeling</span>, and 3D heritage documentation — across Nepal's most challenging terrains.
-        </p>
-        <p>
-          I'm passionate about integrating machine learning with advanced remote sensing for land surface dynamics, environmental monitoring, and infrastructure decision support.
-        </p>
-        <div class="about-langs">
-          <div class="lang-badge">English ●●●●</div>
-          <div class="lang-badge">Nepali ●●●●</div>
-          <div class="lang-badge">Hindi ●●●</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience" class="exp-section">
-  <div class="section-inner">
-    <div class="section-label">02 // Experience</div>
-    <h2 class="section-title">Field-Tested<br>Expertise</h2>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot active"></div>
-        <div class="timeline-date">Sept 2019 — Present</div>
-        <div class="timeline-role">Senior Geomatics Surveyor</div>
-        <div class="timeline-company">Geo-3D Modelling Pvt. Ltd · Kathmandu, Nepal</div>
-        <ul class="timeline-bullets">
-          <li>Led geospatial mapping projects including bathymetric surveys, topographic mapping, and hydrological assessments across Nepal.</li>
-          <li>Acquired and processed LiDAR, UAV, and GNSS data to produce high-resolution DEMs, DTMs, and 3D models.</li>
-          <li>Analyzed multispectral and radar imagery in ENVI and ArcGIS Pro for land cover mapping, flood modeling, and change detection.</li>
-          <li>Generated topographic maps, 3D visualizations, and technical reports with rigorous QC standards.</li>
-          <li>Conducted pre-field planning including risk assessment and safety protocols for every project.</li>
-          <li>Collaborated with engineers, planners, and architects to apply geospatial insights in infrastructure projects.</li>
-        </ul>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">June 2019 — Aug 2019</div>
-        <div class="timeline-role">Intern Geomatics Surveyor</div>
-        <div class="timeline-company">Motherland Hydro · Kathmandu, Nepal</div>
-        <ul class="timeline-bullets">
-          <li>Collected topographic data from Total Station and DGPS instruments.</li>
-          <li>Contributed to layout design of Headwork, Pipeline, and Powerhouse for the Lekhu Hydropower Project.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="section-label">03 // Projects</div>
-    <h2 class="section-title">Signature<br>Field Work</h2>
-
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-num">PROJECT_01</div>
-        <div class="project-title">Airborne LiDAR Survey — Sagarnath Forest Area</div>
-        <p class="project-desc">Helicopter-mounted LiDAR covering ~280 km² at 30–80 pts/m². Produced high-res orthophotos, DSM, DTM, 0.5m/1m contours. Deployed GCPs with DGPS for ±8–12 cm vertical accuracy validation.</p>
-        <div class="project-tags">
-          <span class="tag">Airborne LiDAR</span>
-          <span class="tag">DTM/DSM</span>
-          <span class="tag">DGPS</span>
-          <span class="tag">280 km²</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">PROJECT_02</div>
-        <div class="project-title">Bagmati Irrigation Project Topographic Mapping</div>
-        <p class="project-desc">Large-scale 900 km² airborne LiDAR survey for irrigation infrastructure planning. Full pipeline: flight planning, GNSS base station, PPK trajectory, strip adjustment, to final DTM and orthophoto deliverables.</p>
-        <div class="project-tags">
-          <span class="tag">900 km²</span>
-          <span class="tag">Airborne LiDAR</span>
-          <span class="tag">PPK</span>
-          <span class="tag">Irrigation</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">PROJECT_03</div>
-        <div class="project-title">UAV-LiDAR Survey — 50 MW Solar PV Site, Rolpa</div>
-        <p class="project-desc">DJI Matrice 300 RTK with Penmuse P1 + H600 LiDAR for solar site planning. Generated 3D point clouds, DEM, DSM, and orthomosaic using LiGeoreference, LiDAR360, and DJI Terra.</p>
-        <div class="project-tags">
-          <span class="tag">UAV LiDAR</span>
-          <span class="tag">Solar PV</span>
-          <span class="tag">DJI M300 RTK</span>
-          <span class="tag">Orthomosaic</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">PROJECT_04</div>
-        <div class="project-title">Bathymetric Survey — Phewa & Kulekhani Lakes</div>
-        <p class="project-desc">RTK-integrated echo sounding for detailed underwater terrain modeling. Fused UAV imagery with bathymetric data for seamless 3D lake terrain. Sedimentation volume analysis for Kulekhani reservoir capacity assessment.</p>
-        <div class="project-tags">
-          <span class="tag">Bathymetry</span>
-          <span class="tag">RTK Echo-Sounder</span>
-          <span class="tag">Sedimentation</span>
-          <span class="tag">3D Modeling</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">PROJECT_05</div>
-        <div class="project-title">Flood Risk Assessment — Chandrauta Solar Site</div>
-        <p class="project-desc">Comprehensive hydrological study for proposed solar site. GIS-based peak discharge modeling, catchment analysis, and drainage delineation. Produced flood risk maps to guide site planning and mitigation.</p>
-        <div class="project-tags">
-          <span class="tag">Flood Modeling</span>
-          <span class="tag">GIS Hydrology</span>
-          <span class="tag">UAV DEM</span>
-          <span class="tag">Risk Mapping</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">PROJECT_06</div>
-        <div class="project-title">3D Heritage Documentation — Krishna Mandir (TLS)</div>
-        <p class="project-desc">High-precision FARO Focus Premium terrestrial laser scanning of Krishna Mandir heritage temple. Multi-position scan registration in FARO Scene with noise filtering and georeferencing for digital heritage conservation.</p>
-        <div class="project-tags">
-          <span class="tag">TLS</span>
-          <span class="tag">FARO Scene</span>
-          <span class="tag">Heritage BIM</span>
-          <span class="tag">Point Cloud</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills" class="skills-section">
-  <div class="section-inner">
-    <div class="section-label">04 // Skills</div>
-    <h2 class="section-title">Technical<br>Arsenal</h2>
-
-    <div class="skills-grid">
-      <div class="skill-category">
-        <div class="skill-cat-icon">🗺</div>
-        <div class="skill-cat-title">GIS Software</div>
-        <ul class="skill-list">
-          <li>ArcGIS Pro</li>
-          <li>QGIS</li>
-          <li>Global Mapper</li>
-          <li>ArcGIS Online</li>
-        </ul>
-      </div>
-
-      <div class="skill-category">
-        <div class="skill-cat-icon">📡</div>
-        <div class="skill-cat-title">Remote Sensing & LiDAR</div>
-        <ul class="skill-list">
-          <li>LiGeoreference / LiDAR360</li>
-          <li>FARO Scene</li>
-          <li>ENVI (Hyperspectral/Multispectral)</li>
-          <li>Pix4D Mapper</li>
-          <li>Agisoft Metashape</li>
-        </ul>
-      </div>
-
-      <div class="skill-category">
-        <div class="skill-cat-icon">🚁</div>
-        <div class="skill-cat-title">Survey Instruments</div>
-        <ul class="skill-list">
-          <li>UAVs / Drones (DJI M300 RTK)</li>
-          <li>DGPS / RTK-GNSS</li>
-          <li>Echo-Sounder (Bathymetry)</li>
-          <li>Total Station / Theodolite</li>
-          <li>Hand GPS / Automatic Levels</li>
-        </ul>
-      </div>
-
-      <div class="skill-category">
-        <div class="skill-cat-icon">📊</div>
-        <div class="skill-cat-title">Data & Analysis</div>
-        <ul class="skill-list">
-          <li>Python (Geospatial Workflows)</li>
-          <li>DJI Terra</li>
-          <li>Flood & Hydrological Modeling</li>
-          <li>Point Cloud Processing & QC</li>
-          <li>RMSE / Accuracy Assessment</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EDUCATION & CERTS -->
-<section id="education">
-  <div class="section-inner">
-    <div class="section-label">05 // Education & Certifications</div>
-    <h2 class="section-title">Academic<br>Foundation</h2>
-
-    <div class="edu-grid" style="margin-bottom:3rem;">
-      <div class="edu-card">
-        <div class="edu-year">2020 – 2024</div>
-        <div class="edu-degree">Bachelor of Arts (B.A.)</div>
-        <div class="edu-institution">Tribhuvan University, Ratna Rajyalaxmi Campus</div>
-        <div class="edu-score">Major: Geography · 63.35%</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">2017 – 2020</div>
-        <div class="edu-degree">Diploma in Geomatics Engineering</div>
-        <div class="edu-institution">Land Management Training Center, Dhulikhel</div>
-        <div class="edu-score">65.9%</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">2015</div>
-        <div class="edu-degree">Secondary Education Examination (SEE)</div>
-        <div class="edu-institution">Pancha Dev Secondary School, Kalikot</div>
-        <div class="edu-score">67.13%</div>
-      </div>
-    </div>
-
-    <div class="section-label" style="margin-top:3rem;">06 // Certifications & Training</div>
-    <div class="cert-list" style="margin-top:1.5rem;">
-      <div class="cert-item">
-        <div class="cert-title">AI-Supported Landslide Detection & Susceptibility Analysis — Sentinel-2, Land Surface Parameters & Radar Remote Sensing</div>
-        <div class="cert-org">G.E.O.S Ingenieurgesellschaft mbH · Department of Mines and Geology</div>
-      </div>
-      <div class="cert-item">
-        <div class="cert-title">Training on DGPS and Terrestrial LiDAR Scanner</div>
-        <div class="cert-org">Geo Three D Modelling Pvt. Ltd</div>
-      </div>
-      <div class="cert-item">
-        <div class="cert-title">ArcGIS, QGIS, Remote Sensing, Drones & UAVs</div>
-        <div class="cert-org">Geo Three D Modelling Pvt. Ltd</div>
-      </div>
-      <div class="cert-item">
-        <div class="cert-title">Global Navigation Satellite System (GNSS) Training / Workshop</div>
-        <div class="cert-org">Geo Three D Modelling Pvt. Ltd</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="contact-section">
-  <div class="section-inner">
-    <div class="contact-grid">
-      <div>
-        <div class="section-label">07 // Contact</div>
-        <div class="contact-heading">Let's Work<br><span>Together</span></div>
-        <p class="contact-sub">
-          Open to geospatial projects, remote sensing collaborations, and GIS consulting opportunities across Nepal and beyond. Let's map something extraordinary.
-        </p>
-      </div>
-
-      <div class="contact-items">
-        <a href="mailto:hrpandey2022@gmail.com" class="contact-item">
-          <div class="contact-icon">✉</div>
-          <div>
-            <span class="contact-item-label">Email</span>
-            <span class="contact-item-value">hrpandey2022@gmail.com</span>
-          </div>
-        </a>
-        <a href="tel:+9779861397358" class="contact-item">
-          <div class="contact-icon">📱</div>
-          <div>
-            <span class="contact-item-label">Phone</span>
-            <span class="contact-item-value">+977 9861397358</span>
-          </div>
-        </a>
-        <div class="contact-item" style="cursor:default;">
-          <div class="contact-icon">📍</div>
-          <div>
-            <span class="contact-item-label">Location</span>
-            <span class="contact-item-value">Kathmandu, Bagmati, Nepal</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2025 Hastaraj Pandey — All rights reserved</div>
-  <div class="footer-badge">Geomatics Engineer <span>// Kathmandu, NP</span></div>
+  <span class="footer-copy">© 2025 Hastaraj Pandey — All rights reserved</span>
+  <span class="footer-right">Geomatics Engineer, Nepal</span>
 </footer>
 
 <script>
-  // Hamburger menu
-  function toggleMenu() {
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open');
-    document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
-  }
-  function closeMenu() {
-    document.getElementById('hamburger').classList.remove('open');
-    document.getElementById('mobileNav').classList.remove('open');
-    document.body.style.overflow = '';
-  }
+function toggleDrawer(){
+  document.getElementById('burger').classList.toggle('open');
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobileDrawer').classList.contains('open')?'hidden':'';
+}
+function closeDrawer(){
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.body.style.overflow='';
+}
 
-  // Custom cursor (desktop only)
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX - 4 + 'px';
-    cursor.style.top = e.clientY - 4 + 'px';
+// Scroll reveal
+const revObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) setTimeout(()=>e.target.classList.add('vis'), e.target.dataset.delay||0);
   });
+},{threshold:0.12});
+document.querySelectorAll('.timeline-item').forEach((el,i)=>{el.dataset.delay=i*150;revObs.observe(el)});
+document.querySelectorAll('.proj-card').forEach((el,i)=>{el.dataset.delay=i*80;revObs.observe(el)});
 
-  // Scroll animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.15 });
+// Skill bars
+const skillObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.querySelectorAll('.skill-fill').forEach(f=>f.classList.add('go'))});
+},{threshold:0.3});
+document.querySelectorAll('.about-grid').forEach(el=>skillObs.observe(el));
 
-  document.querySelectorAll('.timeline-item, .project-card').forEach(el => observer.observe(el));
-
-  // Skill bars animation
-  const skillObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-fill').forEach(fill => {
-          fill.classList.add('animated');
-        });
-      }
-    });
-  }, { threshold: 0.3 });
-
-  document.querySelectorAll('.about-card').forEach(el => skillObserver.observe(el));
-
-  // Stagger project cards
-  document.querySelectorAll('.project-card').forEach((card, i) => {
-    card.style.transitionDelay = (i * 0.1) + 's';
+// Active nav
+const navLinks = document.querySelectorAll('.sidenav-links a');
+const sectObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(a=>{
+        a.classList.remove('active');
+        if(a.getAttribute('href')==='#'+e.target.id) a.classList.add('active');
+      });
+    }
   });
-
-  // Stagger timeline items
-  document.querySelectorAll('.timeline-item').forEach((item, i) => {
-    item.style.transitionDelay = (i * 0.2) + 's';
-  });
+},{threshold:0.4});
+document.querySelectorAll('#about,#experience,#projects,#skills,#education,#contact').forEach(s=>sectObs.observe(s));
 </script>
 </body>
 </html>
