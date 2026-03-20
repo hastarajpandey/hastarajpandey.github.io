@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Hastaraj Pandey | Geomatics Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+  /* =============================================
+     RESET & BASE
+  ============================================= */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body { font-family: 'Poppins', sans-serif; color: #555; background: #fff; overflow-x: hidden; line-height: 1.7; }
+  a { text-decoration: none; color: inherit; transition: all .25s; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  img { max-width: 100%; display: block; }
+  .container { max-width: 1170px; margin: 0 auto; padding: 0 15px; }
+  .row { display: flex; flex-wrap: wrap; margin: 0 -15px; }
+  [class*="col-"] { padding: 0 15px; }
+  .col-lg-3  { width: 25%; }
+  .col-lg-4  { width: 33.333%; }
+  .col-lg-5  { width: 41.666%; }
+  .col-lg-6  { width: 50%; }
+  .col-lg-7  { width: 58.333%; }
+  .col-lg-8  { width: 66.666%; }
+  .col-lg-12 { width: 100%; }
+  .col-md-6  { width: 50%; }
+  .offset-lg-1 { margin-left: 8.333%; }
+  .text-center { text-align: center; }
+  .text-left   { text-align: left; }
+  .text-uppercase { text-transform: uppercase; }
+  .text-white  { color: #fff !important; }
+  .d-flex      { display: flex; }
+  .flex-column { flex-direction: column; }
+  .align-items-center { align-items: center; }
+  .justify-content-center { justify-content: center; }
+  .justify-content-start  { justify-content: flex-start; }
+  .justify-content-end    { justify-content: flex-end; }
+  .mb-50 { margin-bottom: 50px; }
+  .ml-15 { margin-left: 15px; }
+  .w-100 { width: 100%; }
+  .img-fluid { max-width: 100%; height: auto; }
+  .section_gap        { padding: 100px 0; }
+  .section_gap_bottom { padding-bottom: 100px; }
+
+  /* =============================================
+     COLORS & GRADIENTS (Satner palette)
+  ============================================= */
+  :root {
+    --primary: #23a6d5;
+    --primary2: #23d5ab;
+    --dark: #222;
+    --text: #777;
+    --light: #f9f9ff;
+    --border: #efefef;
+    --gradient: linear-gradient(135deg, #23a6d5, #23d5ab);
+  }
+
+  /* =============================================
+     NAVBAR — exact Satner structure
+  ============================================= */
+  .header_area {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: rgba(255,255,255,0.97);
+    box-shadow: 0 2px 20px rgba(0,0,0,.07);
+    transition: all .3s;
+  }
+  .main_menu { padding: 0; }
+  .navbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0;
+  }
+  .navbar-brand {
+    font-size: 1.5rem; font-weight: 800; color: var(--dark);
+    letter-spacing: 1px;
+  }
+  .navbar-brand span { color: var(--primary); }
+  .navbar-toggler {
+    display: none; background: none; border: 2px solid var(--primary);
+    padding: 5px 9px; cursor: pointer; border-radius: 3px;
+  }
+  .navbar-toggler .icon-bar {
+    display: block; width: 22px; height: 2px; background: var(--primary); margin: 4px 0;
+  }
+  .menu_nav { display: flex; gap: 4px; list-style: none; }
+  .menu_nav .nav-link {
+    font-size: .82rem; font-weight: 500; color: #444; padding: 6px 14px;
+    border-radius: 3px; letter-spacing: .3px;
+  }
+  .menu_nav .nav-link:hover,
+  .menu_nav .active .nav-link { color: var(--primary); }
+  .navbar-collapse { display: flex; }
+
+  /* =============================================
+     HERO — banner_area
+  ============================================= */
+  .home_banner_area {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #23a6d5 100%);
+    display: flex; align-items: center;
+    padding-top: 80px;
+    position: relative; overflow: hidden;
+  }
+  /* dot grid background */
+  .home_banner_area::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 55px 55px;
+    pointer-events: none;
+  }
+  .banner_inner { position: relative; z-index: 1; width: 100%; padding: 60px 0; }
+  .banner_content h3 {
+    font-size: 1rem; font-weight: 600; color: var(--primary2);
+    letter-spacing: 4px; margin-bottom: 12px;
+  }
+  .banner_content h1 {
+    font-size: clamp(2.4rem, 5vw, 4.4rem); font-weight: 800;
+    color: #fff; line-height: 1.12; margin-bottom: 12px; letter-spacing: -1px;
+  }
+  .banner_content h1 span { color: var(--primary2); }
+  .banner_content h5 {
+    font-size: .95rem; font-weight: 400; color: rgba(255,255,255,.65);
+    letter-spacing: 2.5px; margin-bottom: 16px;
+  }
+  /* pill tags */
+  .banner_tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 28px; }
+  .banner_tag {
+    padding: 5px 15px; border-radius: 20px;
+    border: 1px solid rgba(35,213,171,.45); color: var(--primary2);
+    font-size: .73rem; font-weight: 500; letter-spacing: .5px;
+    background: rgba(35,213,171,.06);
+  }
+  /* buttons */
+  .primary_btn {
+    display: inline-block; padding: 12px 32px; border-radius: 3px;
+    background: var(--gradient); color: #fff;
+    font-size: .8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    border: 2px solid transparent; margin-right: 10px; transition: all .25s;
+  }
+  .primary_btn:hover { background: transparent; border-color: var(--primary); color: var(--primary); }
+  .primary_btn.tr-bg { background: transparent; border: 2px solid rgba(255,255,255,.55); color: #fff; }
+  .primary_btn.tr-bg:hover { background: #fff; color: var(--primary); border-color: #fff; }
+  /* stats */
+  .banner_stats { display: flex; gap: 36px; flex-wrap: wrap; margin-top: 38px; }
+  .bstat .num {
+    font-size: 2.6rem; font-weight: 800; color: #fff; line-height: 1;
+  }
+  .bstat .num sup { font-size: 1.2rem; color: var(--primary2); }
+  .bstat .lbl {
+    font-size: .6rem; letter-spacing: 2.5px; text-transform: uppercase;
+    color: rgba(255,255,255,.45); margin-top: 4px;
+  }
+  /* right image / photo frame */
+  .home_right_img {
+    display: flex; align-items: flex-end; justify-content: center;
+    height: 100%;
+  }
+  .photo_circle {
+    width: 380px; height: 420px;
+    border-radius: 60% 40% 50% 50% / 50% 40% 60% 50%;
+    overflow: hidden;
+    border: 3px solid rgba(35,213,171,.4);
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 0 60px rgba(35,213,171,.12);
+    background: rgba(35,166,213,.08);
+    animation: morphblob 9s ease-in-out infinite;
+  }
+  .photo_circle img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .photo_placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; color: rgba(255,255,255,.25);
+  }
+  .photo_placeholder span { font-size: .62rem; letter-spacing: 2px; text-transform: uppercase; opacity: .45; }
+  @keyframes morphblob {
+    0%,100% { border-radius: 60% 40% 50% 50% / 50% 40% 60% 50%; }
+    33%      { border-radius: 50% 60% 40% 55% / 45% 55% 45% 60%; }
+    66%      { border-radius: 55% 45% 60% 40% / 60% 45% 55% 40%; }
+  }
+
+  /* =============================================
+     MAIN TITLE (section headings)
+  ============================================= */
+  .main_title h2 {
+    font-size: 2.1rem; font-weight: 700; color: var(--dark);
+    margin-bottom: 18px; line-height: 1.2; position: relative; padding-bottom: 14px;
+  }
+  .main_title h2::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 55px; height: 3px; background: var(--gradient); border-radius: 2px;
+  }
+  .main_title.text-center h2::after { left: 50%; transform: translateX(-50%); }
+  .main_title p { color: var(--text); line-height: 1.85; font-size: .95rem; margin-bottom: 12px; }
+
+  /* =============================================
+     ABOUT
+  ============================================= */
+  .about_area { background: #fff; }
+  .about_img { position: relative; }
+  .about_img .ab_photo {
+    width: 100%; max-width: 400px; height: 460px; border-radius: 10px; overflow: hidden;
+    border: 3px solid rgba(35,166,213,.15);
+    box-shadow: 20px 20px 60px rgba(0,0,0,.1), -5px -5px 30px rgba(35,166,213,.08);
+  }
+  .about_img .ab_photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .about_img .ab_photo .apholder {
+    width: 100%; height: 100%; background: #f5f9ff;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; color: #aaa;
+  }
+  .about_badge {
+    position: absolute; bottom: 24px; right: -18px;
+    background: var(--gradient); color: #fff;
+    padding: 16px 20px; border-radius: 8px; text-align: center;
+    box-shadow: 0 10px 30px rgba(35,166,213,.35);
+  }
+  .about_badge .big { font-size: 2rem; font-weight: 800; display: block; }
+  .about_badge .sm  { font-size: .65rem; letter-spacing: 1px; text-transform: uppercase; opacity: .9; }
+  .info_list { margin: 18px 0 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+  .info_list li { font-size: .82rem; color: var(--text); }
+  .info_list li strong { color: var(--dark); display: block; font-size: .68rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1px; }
+
+  /* =============================================
+     SKILLS & STATS (brand_area replacement)
+  ============================================= */
+  .brand_area { background: var(--light); }
+  .skills_wrap { padding: 0; }
+  .skill_item { margin-bottom: 20px; }
+  .skill_item:last-child { margin-bottom: 0; }
+  .skill_header { display: flex; justify-content: space-between; margin-bottom: 7px; }
+  .skill_header span { font-size: .8rem; font-weight: 600; color: var(--dark); }
+  .skill_header .pct { color: var(--primary); }
+  .skill_bar { height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; }
+  .skill_fill { height: 100%; border-radius: 3px; background: var(--gradient); width: 0; transition: width 1.5s ease; }
+  .skill_fill.go { width: var(--w); }
+  .client-info { padding: 20px 0; }
+  .client-info .lage {
+    font-size: 4rem; font-weight: 800; color: var(--primary);
+    line-height: 1; margin-right: 14px;
+  }
+  .client-info .smll {
+    font-size: .88rem; color: var(--text); max-width: 110px; line-height: 1.4;
+    padding-top: 8px;
+  }
+  .call-now .fa-phone { font-size: 1.6rem; color: var(--primary); padding-top: 4px; }
+  .call-now p { font-size: .78rem; color: var(--text); margin: 0; }
+  .call-now h3 { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin: 2px 0 0; }
+
+  /* =============================================
+     FEATURES (services)
+  ============================================= */
+  .features_area { padding: 90px 0; background: #fff; }
+  .feature_inner { margin-top: 16px; }
+  .feature_item {
+    text-align: center; padding: 36px 20px; border-radius: 8px;
+    border: 1px solid var(--border); transition: all .3s; background: #fff; margin-bottom: 24px;
+  }
+  .feature_item:hover { box-shadow: 0 18px 50px rgba(0,0,0,.07); transform: translateY(-5px); border-color: rgba(35,166,213,.25); }
+  .feature_item .icon_wrap {
+    width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 18px;
+    background: linear-gradient(135deg, rgba(35,166,213,.1), rgba(35,213,171,.1));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: var(--primary);
+    border: 1px solid rgba(35,166,213,.2);
+  }
+  .feature_item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: var(--dark); }
+  .feature_item p  { font-size: .82rem; color: var(--text); line-height: 1.75; }
+
+  /* =============================================
+     PORTFOLIO (projects)
+  ============================================= */
+  .portfolio_area { padding: 90px 0; background: var(--light); }
+  .portfolio-filter { margin: 24px 0 30px; }
+  .portfolio-filter ul { display: flex; gap: 8px; flex-wrap: wrap; }
+  .portfolio-filter li {
+    padding: 7px 20px; border-radius: 20px; border: 1px solid var(--border);
+    font-size: .73rem; font-weight: 500; cursor: pointer; transition: all .25s;
+    text-transform: uppercase; letter-spacing: .5px; color: var(--text); background: #fff;
+  }
+  .portfolio-filter li:hover, .portfolio-filter li.active {
+    background: var(--gradient); color: #fff; border-color: transparent;
+  }
+  .portfolio_box {
+    background: #fff; border-radius: 8px; overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,.06); border: 1px solid var(--border);
+    margin-bottom: 24px; transition: all .3s;
+  }
+  .portfolio_box:hover { transform: translateY(-6px); box-shadow: 0 18px 48px rgba(35,166,213,.12); border-color: rgba(35,166,213,.25); }
+  .single_portfolio { position: relative; height: 190px; overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    display: flex; align-items: center; justify-content: center; font-size: 3.5rem;
+  }
+  .short_info { padding: 16px 18px; }
+  .short_info h4 { font-size: .9rem; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+  .short_info p  { font-size: .75rem; color: var(--text); }
+  .short_info .sp_metric { font-size: .7rem; font-weight: 600; color: var(--primary); margin-top: 4px; }
+  .short_info .sp_tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .short_info .sp_tags span {
+    font-size: .63rem; padding: 2px 9px; border-radius: 10px;
+    background: rgba(35,166,213,.08); color: var(--primary);
+    border: 1px solid rgba(35,166,213,.2);
+  }
+
+  /* =============================================
+     EXPERIENCE (replaces testimonials)
+  ============================================= */
+  .testimonial_area { background: #fff; padding-bottom: 100px; padding-top: 30px; }
+  .exp_timeline { position: relative; padding-left: 28px; }
+  .exp_timeline::before {
+    content: ''; position: absolute; left: 0; top: 6px; bottom: 0;
+    width: 2px; background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
+    border-radius: 1px;
+  }
+  .exp_item { position: relative; margin-bottom: 36px; }
+  .exp_item:last-child { margin-bottom: 0; }
+  .exp_dot {
+    position: absolute; left: -33px; top: 6px;
+    width: 11px; height: 11px; border-radius: 50%; background: var(--primary);
+    box-shadow: 0 0 0 3px rgba(35,166,213,.18), 0 0 12px rgba(35,166,213,.35);
+  }
+  .exp_dot.old { background: #fff; border: 2px solid rgba(35,166,213,.4); box-shadow: none; }
+  .exp_card {
+    background: var(--light); border: 1px solid var(--border); border-radius: 8px;
+    padding: 22px 24px; border-left: 3px solid var(--primary); transition: all .25s;
+  }
+  .exp_card:hover { box-shadow: 0 8px 30px rgba(35,166,213,.1); transform: translateX(4px); }
+  .exp_head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .exp_role { font-size: 1rem; font-weight: 700; color: var(--dark); }
+  .exp_badge {
+    font-size: .68rem; letter-spacing: .5px; padding: 3px 12px; border-radius: 12px;
+    background: rgba(35,166,213,.1); color: var(--primary); border: 1px solid rgba(35,166,213,.2);
+  }
+  .exp_badge.past { background: var(--light); color: var(--text); border-color: var(--border); }
+  .exp_co  { font-size: .85rem; color: var(--primary); font-weight: 600; margin-bottom: 2px; }
+  .exp_loc { font-size: .75rem; color: var(--text); margin-bottom: 14px; }
+  .exp_ul li {
+    font-size: .83rem; color: var(--text); padding: 4px 0 4px 18px;
+    position: relative; border-bottom: 1px solid rgba(0,0,0,.04); line-height: 1.65;
+  }
+  .exp_ul li:last-child { border-bottom: none; }
+  .exp_ul li::before { content: '→'; position: absolute; left: 0; color: var(--primary); font-size: .72rem; top: 6px; }
+
+  /* =============================================
+     EDUCATION & CERTS
+  ============================================= */
+  .education_area { background: var(--light); padding: 90px 0; }
+  .edu_card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 22px 24px; margin-bottom: 18px;
+    border-left: 3px solid var(--primary); transition: all .25s;
+  }
+  .edu_card:hover { box-shadow: 0 8px 28px rgba(35,166,213,.1); transform: translateX(3px); }
+  .edu_yr  { font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 6px; }
+  .edu_deg { font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; line-height: 1.35; }
+  .edu_school { font-size: .8rem; color: var(--text); margin-bottom: 3px; }
+  .edu_score  { font-size: .72rem; font-weight: 600; color: var(--primary); }
+  .cert_card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 16px 18px; margin-bottom: 14px;
+    display: flex; gap: 14px; align-items: flex-start; transition: all .25s;
+  }
+  .cert_card:hover { box-shadow: 0 6px 22px rgba(35,166,213,.09); border-color: rgba(35,166,213,.25); }
+  .cert_ico {
+    width: 40px; height: 40px; flex-shrink: 0; border-radius: 8px;
+    background: var(--gradient); display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; color: #fff;
+  }
+  .cert_name { font-size: .84rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; line-height: 1.4; }
+  .cert_org  { font-size: .72rem; color: var(--primary); }
+
+  /* =============================================
+     NEWSLETTER (contact CTA)
+  ============================================= */
+  .newsletter_area {
+    background: var(--gradient); padding: 80px 0;
+  }
+  .subscription_box h2 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; }
+  .subscription_box > p { font-size: .93rem; margin-bottom: 32px; opacity: .9; }
+  .contact_items { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-bottom: 36px; }
+  .contact_item {
+    display: flex; align-items: center; gap: 10px;
+    color: #fff; font-size: .92rem;
+  }
+  .contact_item i { font-size: 1.1rem; }
+  .subcribe-form { display: flex; max-width: 520px; margin: 0 auto; }
+  .subcribe-form input {
+    flex: 1; padding: 13px 18px; border: none; border-radius: 3px 0 0 3px;
+    font-size: .85rem; outline: none; font-family: 'Poppins', sans-serif;
+  }
+  .subcribe-form button {
+    padding: 13px 26px; background: var(--dark); color: #fff; border: none;
+    border-radius: 0 3px 3px 0; font-weight: 700; font-size: .78rem;
+    letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+    font-family: 'Poppins', sans-serif; transition: all .25s;
+  }
+  .subcribe-form button:hover { background: #111; }
+  .form_msg { display: none; margin-top: 14px; color: #fff; font-weight: 600; font-size: .85rem; }
+
+  /* =============================================
+     FOOTER
+  ============================================= */
+  .footer_area { background: #1a1a2e; padding: 50px 0 0; }
+  .footer_top {
+    display: flex; flex-direction: column; align-items: center;
+    padding-bottom: 28px; border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .footer_logo .logo_name {
+    font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: 1px;
+  }
+  .footer_logo .logo_name span { color: var(--primary2); }
+  .footer_logo h4 { color: rgba(255,255,255,.5); font-size: .85rem; font-weight: 400; margin-top: 8px; text-align: center; }
+  .footer_social { display: flex; gap: 10px; margin-top: 16px; }
+  .footer_social a {
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.12);
+    display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.5);
+    font-size: .85rem; transition: all .25s;
+  }
+  .footer_social a:hover { background: var(--gradient); border-color: transparent; color: #fff; }
+  .footer_bottom { padding: 18px 0; }
+  .footer-text { color: rgba(255,255,255,.35); font-size: .78rem; text-align: center; }
+  .footer-text a { color: var(--primary2); }
+
+  /* =============================================
+     SCROLL REVEAL
+  ============================================= */
+  .rv { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+  .rv.in { opacity: 1; transform: none; }
+  .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; }
+
+  /* =============================================
+     RESPONSIVE
+  ============================================= */
+  @media (max-width: 1024px) {
+    .col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-12 { width: 100%; }
+    .offset-lg-1 { margin-left: 0; }
+    .navbar-toggler { display: block; }
+    .navbar-collapse { display: none; position: absolute; top: 68px; left: 0; right: 0;
+      background: #fff; padding: 14px 20px; box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    .navbar-collapse.show { display: block; }
+    .navbar { position: relative; }
+    .menu_nav { flex-direction: column; gap: 2px; }
+    .home_right_img { margin-top: 44px; justify-content: center; }
+    .about_badge { right: 0; bottom: -18px; }
+    .info_list { grid-template-columns: 1fr; }
+    .edu_grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .photo_circle { width: 280px; height: 320px; }
+    .banner_stats { gap: 18px; }
+    .primary_btn { padding: 10px 22px; font-size: .75rem; }
+    .subcribe-form { flex-direction: column; }
+    .subcribe-form input { border-radius: 3px; margin-bottom: 8px; }
+    .subcribe-form button { border-radius: 3px; }
+    .portfolio-filter ul { gap: 5px; }
+    .col-md-6 { width: 100%; }
+    footer .footer_top { text-align: center; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ================ HEADER ================ -->
+<header class="header_area">
+  <div class="main_menu">
+    <nav class="navbar">
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%">
+        <a class="navbar-brand" href="#home">
+          <span class="logo_name" style="font-family:'Poppins',sans-serif;font-weight:800;font-size:1.3rem;color:#222;">
+            HP<span style="color:var(--primary)">.</span>
+          </span>
+        </a>
+        <button class="navbar-toggler" onclick="this.nextElementSibling.classList.toggle('show')">
+          <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+        </button>
+        <div class="navbar-collapse">
+          <ul class="nav navbar-nav menu_nav justify-content-end">
+            <li class="nav-item active"><a class="nav-link" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="#portfolio">Projects</a></li>
+            <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+            <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- ================ END HEADER ================ -->
+
+<!-- ================ HERO BANNER ================ -->
+<section class="home_banner_area" id="home">
+  <div class="banner_inner">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="banner_content">
+            <h3 class="text-uppercase">Hello!</h3>
+            <h1 class="text-uppercase">I am <span>Hastaraj Pandey</span></h1>
+            <h5 class="text-uppercase">Senior Geomatics Surveyor</h5>
+            <div class="banner_tags">
+              <span class="banner_tag">GIS Expert</span>
+              <span class="banner_tag">UAV-LiDAR Specialist</span>
+              <span class="banner_tag">Remote Sensing</span>
+              <span class="banner_tag">Bathymetric Survey</span>
+              <span class="banner_tag">3D Modelling</span>
+            </div>
+            <div class="d-flex align-items-center" style="flex-wrap:wrap;gap:10px;">
+              <a class="primary_btn" href="#contact"><span>Hire Me</span></a>
+              <a class="primary_btn tr-bg" href="mailto:hrpandey2022@gmail.com"><span>Get In Touch</span></a>
+            </div>
+            <div class="banner_stats">
+              <div class="bstat"><div class="num">5<sup>+</sup></div><div class="lbl">Years Experience</div></div>
+              <div class="bstat"><div class="num">900<sup>km²</sup></div><div class="lbl">Largest Survey</div></div>
+              <div class="bstat"><div class="num">6<sup>+</sup></div><div class="lbl">Major Projects</div></div>
+              <div class="bstat"><div class="num">±8<sup>cm</sup></div><div class="lbl">Accuracy</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="home_right_img">
+            <div class="photo_circle">
+              <img src="Pictures/20220123_154022.jpg" alt="Hastaraj Pandey"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+              <div class="photo_placeholder" style="display:none">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+                <span>Add your photo here</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ END HERO ================ -->
+
+<!-- ================ ABOUT ================ -->
+<section class="about_area section_gap" id="about">
+  <div class="container">
+    <div class="row justify-content-start align-items-center">
+      <div class="col-lg-5 rv">
+        <div class="about_img">
+          <div class="ab_photo">
+            <img src="Pictures/20220123_154022.jpg" alt="Hastaraj Pandey"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="apholder">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+          </div>
+          <div class="about_badge">
+            <span class="big">5+</span>
+            <span class="sm">Years<br>Experience</span>
+          </div>
+        </div>
+      </div>
+      <div class="offset-lg-1 col-lg-5 rv d1">
+        <div class="main_title text-left">
+          <h2>Let's<br>Introduce About<br>Myself</h2>
+          <p>A <strong>Diploma holder in Geomatics Engineering</strong> and Bachelor of Arts (Geography) graduate with strong academic and professional training in GIS, remote sensing, and spatial data analysis. Based in Kathmandu, Nepal.</p>
+          <p>Experienced in <strong>UAV–LiDAR surveys, bathymetric mapping, photogrammetry-based 3D modelling</strong>, and geospatial data processing using ArcGIS Pro, QGIS, Pix4D, and Python workflows. Interested in integrating <strong>machine learning and advanced remote sensing</strong> to study land surface dynamics.</p>
+          <ul class="info_list">
+            <li><strong>Name</strong>Hastaraj Pandey</li>
+            <li><strong>Email</strong>hrpandey2022@gmail.com</li>
+            <li><strong>Phone</strong>+977 9861397358</li>
+            <li><strong>Location</strong>Kathmandu, Nepal</li>
+            <li><strong>English</strong>●●●● Proficient</li>
+            <li><strong>Nepali</strong>●●●● Native</li>
+          </ul>
+          <a class="primary_btn" href="mailto:hrpandey2022@gmail.com"><span>Contact Me</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ END ABOUT ================ -->
+
+<!-- ================ SKILLS (brand_area) ================ -->
+<section class="brand_area section_gap_bottom" id="skills">
+  <div class="container">
+    <div class="row justify-content-center" style="margin-bottom:30px">
+      <div class="col-lg-8 text-center">
+        <div class="main_title" style="text-align:center">
+          <h2>Technical Skills</h2>
+          <p>Core competencies built through 5+ years of hands-on field work and geospatial data processing across Nepal's most demanding terrain.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-center">
+      <!-- skills bars -->
+      <div class="col-lg-6 rv">
+        <div class="skills_wrap" id="skillsWrap">
+          <div class="skill_item">
+            <div class="skill_header"><span>ArcGIS Pro / QGIS / Global Mapper</span><span class="pct">95%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="95" style="--w:95%"></div></div>
+          </div>
+          <div class="skill_item">
+            <div class="skill_header"><span>UAV & LiDAR Processing (LiDAR360, FARO Scene)</span><span class="pct">92%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="92" style="--w:92%"></div></div>
+          </div>
+          <div class="skill_item">
+            <div class="skill_header"><span>Pix4D / Agisoft Metashape / DJI Terra</span><span class="pct">90%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="90" style="--w:90%"></div></div>
+          </div>
+          <div class="skill_item">
+            <div class="skill_header"><span>ENVI / Remote Sensing / SAR / Sentinel-2</span><span class="pct">85%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="85" style="--w:85%"></div></div>
+          </div>
+          <div class="skill_item">
+            <div class="skill_header"><span>Bathymetric Survey (RTK Echo-Sounder)</span><span class="pct">88%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="88" style="--w:88%"></div></div>
+          </div>
+          <div class="skill_item">
+            <div class="skill_header"><span>DGPS / RTK-GNSS / Total Station / Theodolite</span><span class="pct">90%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="95" style="--w:95%"></div></div>
+          </div>
+          <div class="skill_item">
+            <div class="skill_header"><span>Python / Geospatial Workflows</span><span class="pct">70%</span></div>
+            <div class="skill_bar"><div class="skill_fill" data-w="70" style="--w:70%"></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- stats / contact block -->
+      <div class="offset-lg-2 col-lg-4 col-md-6 rv d1">
+        <div class="client-info">
+          <div class="d-flex mb-50">
+            <span class="lage">5+</span>
+            <span class="smll">Years Surveying Experience in Nepal</span>
+          </div>
+          <div class="call-now d-flex">
+            <div><span class="fa fa-phone" style="font-size:1.6rem;color:var(--primary);padding-top:4px;"></span></div>
+            <div class="ml-15">
+              <p>Call Me Now</p>
+              <h3>+977 9861397358</h3>
+            </div>
+          </div>
+          <div class="call-now d-flex" style="margin-top:18px;">
+            <div><span class="fa fa-envelope" style="font-size:1.4rem;color:var(--primary);padding-top:4px;"></span></div>
+            <div class="ml-15">
+              <p>Email</p>
+              <h3 style="font-size:.88rem;">hrpandey2022@gmail.com</h3>
+            </div>
+          </div>
+          <div class="call-now d-flex" style="margin-top:18px;">
+            <div><span class="fa fa-map-marker" style="font-size:1.6rem;color:var(--primary);padding-top:4px;"></span></div>
+            <div class="ml-15">
+              <p>Location</p>
+              <h3 style="font-size:.88rem;">Kathmandu, Nepal</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ END SKILLS ================ -->
+
+<!-- ================ SERVICES (features_area) ================ -->
+<section class="features_area" id="services">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <div class="main_title" style="text-align:center">
+          <h2>Service Offers</h2>
+          <p>Professional geospatial services for engineering, infrastructure, environmental, and heritage projects across Nepal and beyond.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row feature_inner">
+      <div class="col-lg-3 col-md-6 rv">
+        <div class="feature_item">
+          <div class="icon_wrap">🗺️</div>
+          <h4>GIS Analysis & Mapping</h4>
+          <p>Spatial analysis, base map production, geodatabase preparation, and cartographic outputs for engineering and planning workflows.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv d1">
+        <div class="feature_item">
+          <div class="icon_wrap">🚁</div>
+          <h4>UAV & LiDAR Surveys</h4>
+          <p>End-to-end drone and LiDAR data acquisition, point cloud processing, DEMs, DTMs, and orthomosaics for infrastructure projects.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv d2">
+        <div class="feature_item">
+          <div class="icon_wrap">🌊</div>
+          <h4>Bathymetric Surveying</h4>
+          <p>High-accuracy underwater terrain mapping using RTK echo-sounding for lake, reservoir, and riverbed characterisation.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv d3">
+        <div class="feature_item">
+          <div class="icon_wrap">📡</div>
+          <h4>Remote Sensing & AI</h4>
+          <p>Multispectral, hyperspectral, and SAR processing for land cover classification, change detection, and landslide susceptibility.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv" style="margin-top:0">
+        <div class="feature_item">
+          <div class="icon_wrap">🌧️</div>
+          <h4>Flood Risk Studies</h4>
+          <p>GIS-based runoff analysis, floodplain mapping, catchment delineation, and risk zoning for infrastructure site planning.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv d1">
+        <div class="feature_item">
+          <div class="icon_wrap">🏛️</div>
+          <h4>3D Heritage Docs</h4>
+          <p>Terrestrial laser scanning (TLS) for high-precision 3D documentation and digital preservation of heritage structures.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv d2">
+        <div class="feature_item">
+          <div class="icon_wrap">📐</div>
+          <h4>Topographic Mapping</h4>
+          <p>Production of high-resolution contour maps, terrain models, and topographic deliverables for infrastructure planning.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 rv d3">
+        <div class="feature_item">
+          <div class="icon_wrap">🛰️</div>
+          <h4>GNSS / Field Surveys</h4>
+          <p>Field surveying using DGPS, RTK-GNSS, Total Station, and Theodolite for precise topographic and hydrographic surveys.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ END SERVICES ================ -->
+
+<!-- ================ PROJECTS (portfolio_area) ================ -->
+<section class="portfolio_area" id="portfolio">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 rv">
+        <div class="main_title text-left">
+          <h2>Quality Work<br>Recently Done Projects</h2>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-filter rv">
+      <ul id="filterList">
+        <li class="active" data-cat="all">All</li>
+        <li data-cat="lidar">LiDAR</li>
+        <li data-cat="uav">UAV</li>
+        <li data-cat="bathymetry">Bathymetry</li>
+        <li data-cat="hydrology">Hydrology</li>
+        <li data-cat="heritage">Heritage</li>
+      </ul>
+    </div>
+    <div class="row" id="portfolioGrid" style="margin-top:10px;">
+
+      <div class="col-lg-4 col-md-6 rv" data-cat="lidar">
+        <div class="portfolio_box">
+          <div class="single_portfolio">🚁</div>
+          <div class="short_info">
+            <h4>Airborne LiDAR — Sagarnath Forest (~280 km²)</h4>
+            <p>LiDAR & Topographic Mapping</p>
+            <div class="sp_metric">±8–12 cm · 30–80 pts/m² · ~280 km²</div>
+            <div class="sp_tags"><span>Airborne LiDAR</span><span>DTM/DSM</span><span>DGPS GCPs</span><span>Orthophoto</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 rv d1" data-cat="lidar">
+        <div class="portfolio_box">
+          <div class="single_portfolio">🗺️</div>
+          <div class="short_info">
+            <h4>Bagmati Irrigation Project — 900 km² Mapping</h4>
+            <p>Largest LiDAR Survey</p>
+            <div class="sp_metric">900 km² · PPK Pipeline · RMSE Verified</div>
+            <div class="sp_tags"><span>Airborne LiDAR</span><span>PPK</span><span>Strip Adjustment</span><span>Irrigation</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 rv d2" data-cat="uav lidar">
+        <div class="portfolio_box">
+          <div class="single_portfolio">☀️</div>
+          <div class="short_info">
+            <h4>UAV-LiDAR Survey — 50 MW Solar PV, Rolpa</h4>
+            <p>UAV & LiDAR Survey</p>
+            <div class="sp_metric">DJI M300 RTK · H600 LiDAR · DJI Terra</div>
+            <div class="sp_tags"><span>UAV LiDAR</span><span>LiGeoreference</span><span>LiDAR360</span><span>DJI Terra</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 rv" data-cat="bathymetry">
+        <div class="portfolio_box">
+          <div class="single_portfolio">🌊</div>
+          <div class="short_info">
+            <h4>Bathymetric Survey — Phewa & Kulekhani Lakes</h4>
+            <p>Bathymetry & Sedimentation Study</p>
+            <div class="sp_metric">RTK Echo-Sounder · UAV Fusion</div>
+            <div class="sp_tags"><span>Bathymetry</span><span>RTK GNSS</span><span>Sedimentation</span><span>3D Lakebed</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 rv d1" data-cat="hydrology">
+        <div class="portfolio_box">
+          <div class="single_portfolio">🌧️</div>
+          <div class="short_info">
+            <h4>Flood Risk Assessment — Chandrauta Solar Site</h4>
+            <p>Hydrology & GIS Analysis</p>
+            <div class="sp_metric">GIS Hydrology · UAV DEM · Peak Discharge</div>
+            <div class="sp_tags"><span>Flood Modelling</span><span>GIS Hydrology</span><span>UAV DEM</span><span>Risk Maps</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 rv d2" data-cat="heritage">
+        <div class="portfolio_box">
+          <div class="single_portfolio">🏛️</div>
+          <div class="short_info">
+            <h4>3D Heritage Documentation — Krishna Mandir (TLS)</h4>
+            <p>Terrestrial Laser Scanning</p>
+            <div class="sp_metric">FARO Focus Premium · FARO Scene · Georeferenced</div>
+            <div class="sp_tags"><span>TLS</span><span>FARO Focus</span><span>FARO Scene</span><span>Point Cloud</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ================ END PROJECTS ================ -->
+
+<!-- ================ EXPERIENCE (testimonial_area) ================ -->
+<div class="testimonial_area" id="experience">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center rv">
+        <div class="main_title" style="text-align:center;">
+          <h2>Work Experience</h2>
+          <p>5+ years of field-proven geospatial expertise across Nepal's most challenging survey environments — from helicopter-borne LiDAR to centimetre-precision bathymetric surveys.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:30px;">
+      <div class="col-lg-8" style="margin:0 auto;">
+        <div class="exp_timeline">
+
+          <div class="exp_item rv">
+            <div class="exp_dot"></div>
+            <div class="exp_card">
+              <div class="exp_head">
+                <span class="exp_role">Senior Geomatics Surveyor</span>
+                <span class="exp_badge">Sept 2019 – Present</span>
+              </div>
+              <div class="exp_co">Geo-3D Modelling Pvt. Ltd</div>
+              <div class="exp_loc">📍 Kathmandu, Bagmati, Nepal</div>
+              <ul class="exp_ul">
+                <li>Pre-field planning for every project — risk assessment and safety protocols.</li>
+                <li>Led geospatial mapping projects including bathymetric surveys, topographic mapping, and hydrological assessments.</li>
+                <li>Acquired and processed LiDAR, UAV, and GNSS data to produce high-resolution DEMs, DTMs, and 3D models.</li>
+                <li>Analysed multispectral and radar imagery in ENVI and ArcGIS Pro for land cover mapping, flood modelling, and change detection.</li>
+                <li>Generated topographic maps, 3D visualisations, and technical reports with rigorous quality control.</li>
+                <li>Documented methodologies and prepared technical figures and maps for project reports and presentations.</li>
+                <li>Collaborated with engineers, planners, and architects to apply geospatial insights in projects.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="exp_item rv d1">
+            <div class="exp_dot old"></div>
+            <div class="exp_card">
+              <div class="exp_head">
+                <span class="exp_role">Intern Geomatics Surveyor</span>
+                <span class="exp_badge past">June 2019 – Aug 2019</span>
+              </div>
+              <div class="exp_co">Motherland Hydro</div>
+              <div class="exp_loc">📍 Kathmandu, Bagmati, Nepal</div>
+              <ul class="exp_ul">
+                <li>Collected topographic data using Total Station and DGPS instruments.</li>
+                <li>Layout of Headwork, Pipeline and Powerhouse for the Lekhu Hydropower Project.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ================ END EXPERIENCE ================ -->
+
+<!-- ================ EDUCATION ================ -->
+<section class="education_area" id="education">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center rv">
+        <div class="main_title" style="text-align:center;">
+          <h2>Education & Certifications</h2>
+          <p>Academic foundation and professional development in Geomatics Engineering, Geography, and advanced remote sensing techniques.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:20px;" id="edu_grid">
+      <!-- degrees -->
+      <div class="col-lg-6 rv">
+        <h4 style="font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--border);">Academic Degrees</h4>
+        <div class="edu_card">
+          <div class="edu_yr">2020 – 2024</div>
+          <div class="edu_deg">Bachelor of Arts (B.A.) — Geography</div>
+          <div class="edu_school">Tribhuvan University, Ratna Rajyalaxmi Campus</div>
+          <div class="edu_score">63.35%</div>
+        </div>
+        <div class="edu_card">
+          <div class="edu_yr">2017 – 2020</div>
+          <div class="edu_deg">Diploma in Geomatics Engineering</div>
+          <div class="edu_school">Land Management Training Center, Dhulikhel, Nepal</div>
+          <div class="edu_score">65.9%</div>
+        </div>
+        <div class="edu_card">
+          <div class="edu_yr">2015</div>
+          <div class="edu_deg">Secondary Education Examination (SEE)</div>
+          <div class="edu_school">Pancha Dev Secondary School, Kalikot, Nepal</div>
+          <div class="edu_score">67.13%</div>
+        </div>
+      </div>
+      <!-- certs -->
+      <div class="col-lg-6 rv d2">
+        <h4 style="font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--border);">Certifications & Training</h4>
+        <div class="cert_card">
+          <div class="cert_ico">🛰️</div>
+          <div>
+            <div class="cert_name">AI-Supported Landslide Detection & Susceptibility Analysis — Sentinel-2, Land Surface Parameters & Radar Remote Sensing</div>
+            <div class="cert_org">G.E.O.S Ingenieurgesellschaft mbH · Dept. of Mines and Geology</div>
+          </div>
+        </div>
+        <div class="cert_card">
+          <div class="cert_ico">📡</div>
+          <div>
+            <div class="cert_name">Training on DGPS and Terrestrial LiDAR Scanner</div>
+            <div class="cert_org">Geo Three D Modelling Pvt. Ltd</div>
+          </div>
+        </div>
+        <div class="cert_card">
+          <div class="cert_ico">🗺️</div>
+          <div>
+            <div class="cert_name">ArcGIS, QGIS, Remote Sensing, Drones & UAVs</div>
+            <div class="cert_org">Geo Three D Modelling Pvt. Ltd</div>
+          </div>
+        </div>
+        <div class="cert_card">
+          <div class="cert_ico">🌍</div>
+          <div>
+            <div class="cert_name">Global Navigation Satellite System (GNSS) Training / Workshop</div>
+            <div class="cert_org">Geo Three D Modelling Pvt. Ltd</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ END EDUCATION ================ -->
+
+<!-- ================ CONTACT CTA (newsletter_area) ================ -->
+<section class="newsletter_area" id="contact">
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-lg-12">
+        <div class="subscription_box text-center">
+          <h2 class="text-uppercase text-white">Let's Work Together</h2>
+          <p class="text-white">Open to geospatial projects, remote sensing collaborations, GIS consulting, and research opportunities across Nepal and internationally.</p>
+          <div class="contact_items">
+            <div class="contact_item">
+              <i class="fa fa-envelope"></i>
+              <a href="mailto:hrpandey2022@gmail.com" style="color:#fff;">hrpandey2022@gmail.com</a>
+            </div>
+            <div class="contact_item">
+              <i class="fa fa-phone"></i>
+              <a href="tel:+9779861397358" style="color:#fff;">+977 9861397358</a>
+            </div>
+            <div class="contact_item">
+              <i class="fa fa-map-marker"></i>
+              <span>Kathmandu, Bagmati, Nepal</span>
+            </div>
+          </div>
+          <div class="subcribe-form">
+            <input id="cEmail" placeholder="Your email address" type="email">
+            <button onclick="handleContact()">Get In Touch</button>
+          </div>
+          <div class="form_msg" id="formMsg">✓ Thanks! I'll get back to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ END CONTACT ================ -->
+
+<!-- ================ FOOTER ================ -->
+<footer class="footer_area">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="footer_top flex-column">
+          <div class="footer_logo">
+            <div class="logo_name">HP<span>.</span></div>
+            <h4>Follow Me</h4>
+          </div>
+          <div class="footer_social">
+            <a href="mailto:hrpandey2022@gmail.com" title="Email"><i class="fa fa-envelope"></i></a>
+            <a href="tel:+9779861397358" title="Phone"><i class="fa fa-phone"></i></a>
+            <a href="#" title="LinkedIn"><i class="fa fa-linkedin"></i></a>
+            <a href="#" title="GitHub"><i class="fa fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row footer_bottom justify-content-center">
+      <p class="col-lg-8 col-sm-12 footer-text">
+        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+        All rights reserved | Hastaraj Pandey — Senior Geomatics Surveyor, Kathmandu, Nepal
+      </p>
+    </div>
+  </div>
+</footer>
+<!-- ================ END FOOTER ================ -->
+
+<script>
+/* ── Active nav on scroll ── */
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('section[id], .testimonial_area[id], .education_area[id]');
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 90) cur = s.id; });
+  document.querySelectorAll('.menu_nav .nav-item').forEach(li => {
+    li.classList.remove('active');
+    const a = li.querySelector('a');
+    if (a && a.getAttribute('href') === '#' + cur) li.classList.add('active');
+  });
+  /* sticky shadow */
+  document.querySelector('.header_area').style.boxShadow =
+    window.scrollY > 50 ? '0 4px 22px rgba(0,0,0,.12)' : '0 2px 20px rgba(0,0,0,.07)';
+});
+
+/* ── Scroll reveal ── */
+const rObs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => rObs.observe(el));
+
+/* ── Skill bars ── */
+const sObs = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.skill_fill').forEach(f => f.classList.add('go'));
+      sObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('#skillsWrap').forEach(el => sObs.observe(el));
+
+/* ── Portfolio filter ── */
+document.getElementById('filterList').addEventListener('click', e => {
+  const li = e.target.closest('li');
+  if (!li) return;
+  document.querySelectorAll('#filterList li').forEach(x => x.classList.remove('active'));
+  li.classList.add('active');
+  const cat = li.dataset.cat;
+  document.querySelectorAll('#portfolioGrid [data-cat]').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat.includes(cat)) ? '' : 'none';
+  });
+});
+
+/* ── Contact ── */
+function handleContact() {
+  const em = document.getElementById('cEmail');
+  if (!em.value.trim() || !em.value.includes('@')) {
+    em.style.outline = '2px solid #e55'; return;
+  }
+  em.style.outline = '';
+  document.getElementById('formMsg').style.display = 'block';
+  em.value = '';
+  setTimeout(() => document.getElementById('formMsg').style.display = 'none', 4000);
+}
+</script>
+</body>
+</html>
